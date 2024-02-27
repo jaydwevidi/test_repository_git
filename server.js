@@ -1,15 +1,10 @@
 const express = require('express');
 const app = express();
-const logger = require('./middleware/logger')
 const mysql = require('mysql2/promise');
 
 // Body parsing middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-DB_HOST="database-2.cne282aq27vi.us-east-1.rds.amazonaws.com"
-DB_USER="admin"
-DB_PASS="00000000"
 
 const dbConfig = {
   host: "database-2.cne282aq27vi.us-east-1.rds.amazonaws.com",
@@ -20,7 +15,6 @@ const dbConfig = {
 
 const pool = mysql.createPool(dbConfig);
 
-app.use(logger);
 
 app.get('/', (req, res) => {
   res.send('Hello, World!');
