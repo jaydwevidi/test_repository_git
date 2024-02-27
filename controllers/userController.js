@@ -1,4 +1,5 @@
 const pool = require('../config/db');
+const crypto = require('crypto');
 
 exports.register = async (req, res) => {
     try {
