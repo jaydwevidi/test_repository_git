@@ -33,6 +33,29 @@ app.post('/users/register', async (req, res) => {
   }
 });
 
+const crypto = require('crypto');
+
+app.post('/users/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const [users] = await pool.query('SELECT * FROM users WHERE email = ? AND password = ?', [email, password]);
+
+        if (users.length === 0) {
+            return res.status(401).json({ message: 'Invalid email or password' });
+        }
+
+        const user = users[0];
+        const token = crypto.randomBytes(20).toString('hex');
+
+        await pool.query('INSERT INTO tokens (user_id, token) VALUES (?, ?)', [user.id, token]);
+
+        res.json({ token });
+    } catch (error) {
+        res.status(500).json({ message: 'Error logging in', error: error.message });
+    }
+});
+
+
 
 const PORT = 3000;
 app.listen(PORT, () => {
