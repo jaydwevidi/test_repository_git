@@ -39,3 +39,27 @@ exports.login = async (req, res) => {
         res.status(500).json({ message: 'Error logging in', error: error.message });
     }
   };
+
+  exports.verifyToken = async (req, res) => {
+    try {
+        const { token } = req.body;
+        const [tokens] = await pool.query('SELECT * FROM tokens WHERE token = ?', [token]);
+
+        if (tokens.length === 0) {
+            return res.status(404).json({ message: 'Token not found' });
+        }
+
+        // Assuming you have a column in your tokens table named 'expires_at' that stores the expiration date of the token
+        const tokenData = tokens[0];
+        const now = new Date();
+        const expirationDate = new Date(tokenData.expires_at);
+
+        if (now > expirationDate) {
+            return res.status(401).json({ message: 'Token expired' });
+        }
+
+        res.json({ message: 'Token is valid' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error verifying token', error: error.message });
+    }
+};

@@ -1,8 +1,22 @@
 const axios = require('axios');
+const isTokenValid = require('./tokenValidator');
 
 exports.summarize = async (req, res) => {
+    const token = process.env.OPEN_AI_KEY ;
+
+    console.log(token);
+    
+    if (!req.body.user_token) {
+        return res.status(400).json({ error: 'User Token is required' });
+      }
+    
+    const isValid = await isTokenValid(token);
+    if (!isValid){
+        return res.status(400).json({ error: 'Invalid Token' });
+    }
+    
     try {
-      const token = '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';
+      
       const transcript = req.body.transcript; // Extracting transcript from the request body
       const llm_model = req.body.llm_model || "gpt-3.5-turbo-0125";
   
@@ -12,7 +26,7 @@ exports.summarize = async (req, res) => {
         "messages": [
           {
             "role": "system",
-            "content": "Your job is to return the summary of a video transcript in 10-200 words. Smaller The better."
+            "content": "Your only job is to return the summary of a video transcript provided"
           },
           {
             "role": "user",
