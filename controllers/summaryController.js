@@ -5,8 +5,8 @@ exports.summarize = async (req, res) => {
     const open_ai_auth_token = process.env.OPEN_AI_KEY ;
 
     console.log(open_ai_auth_token);
-    
-    if (!req.body.user_token) {
+    user_token = req.body.user_token
+    if (!user_token) {
         return res.status(400).json({ error: 'User Token is required' });
       }
     
