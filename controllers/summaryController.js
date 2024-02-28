@@ -2,19 +2,19 @@ const axios = require('axios');
 const isTokenValid = require('./tokenValidator');
 
 exports.summarize = async (req, res) => {
-    const token = process.env.OPEN_AI_KEY ;
+    const open_ai_auth_token = process.env.OPEN_AI_KEY ;
 
-    console.log(token);
+    console.log(open_ai_auth_token);
     
     if (!req.body.user_token) {
         return res.status(400).json({ error: 'User Token is required' });
       }
     
-    const isValid = await isTokenValid(token);
+    const isValid = await isTokenValid(user_token);
     if (!isValid){
         return res.status(400).json({ error: 'Invalid Token' });
     }
-    
+
     try {
       
       const transcript = req.body.transcript; // Extracting transcript from the request body
@@ -37,7 +37,7 @@ exports.summarize = async (req, res) => {
   
       const response = await axios.post('https://api.openai.com/v1/chat/completions', requestBody, {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'Authorization': `Bearer ${open_ai_auth_token}`,
           'Content-Type': 'application/json',
           // Add any other headers you need here
         }

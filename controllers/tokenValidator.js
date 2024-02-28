@@ -1,7 +1,7 @@
 const pool = require('../config/db'); // Adjust the path as necessary
 
 async function isTokenValid(token) {
-    console.log("inside token validator.");
+    console.log("inside token validator. " + token ) ;
     try {
         const [tokens] = await pool.query('SELECT * FROM tokens WHERE token = ?', [token]);
         if (tokens.length === 0) {
