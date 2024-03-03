@@ -11,11 +11,13 @@ app.use(express.urlencoded({ extended: true }));
 const userRoutes = require("./routes/userRoutes");
 const summaryRoutes = require("./routes/summaryRoutes");
 const getMcqRoutes = require("./routes/getMcq");
+const userDataRoutes = require("./routes/userDataRoutes");
 
 // Using routes
 app.use("/users", userRoutes);
 app.use("/summarize", summaryRoutes);
 app.use("/getMcq", getMcqRoutes);
+app.use("/userData", userDataRoutes);
 
 const addVideoToDbController = require("./routes/addVideoToDbRoutes");
 app.use("/addVideoToDb", addVideoToDbController);
