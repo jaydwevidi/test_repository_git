@@ -33,8 +33,8 @@ exports.getSummary = async (req, res) => {
         addVideoToDbResponse.data.token_used.total_tokens,
         addVideoToDbResponse.data.token_used.completion_tokens,
         addVideoToDbResponse.data.token_used.prompt_tokens,
-        2,
-        3,
+        null,
+        null,
       ]
     );
 
