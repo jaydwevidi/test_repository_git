@@ -6,16 +6,6 @@ exports.addVideoToDb = async (req, res) => {
     "\nStarting Add Video To DB  \n\n\n\n video id - " + req.body.video_id
   );
 
-  const videoId = req.body.video_id;
-
-  if (!videoId) {
-    return res.status(400).json({ error: "No Video Id Provided" });
-  }
-
-  const llm_model = req.body.llm_model || "gpt-3.5-turbo-0125";
-  const summary_word_count = req.body.word_limit || 100;
-  const additional_instructions = req.body.additional_instructions || "";
-
   console.log(
     `Using Model - ${llm_model}, \nWord Limit - ${summary_word_count}\nadditional instructions - ${additional_instructions}`
   );
@@ -54,10 +44,7 @@ exports.addVideoToDb = async (req, res) => {
 
       try {
         internalSummaryResponse = await axios.post(internalSummaryUrl, {
-          video_id: videoId,
-          word_limit: summary_word_count,
-          additional_instructions: additional_instructions,
-          llm_model: llm_model,
+          ...req.body,
         });
       } catch (error) {
         console.error("Error:", error);

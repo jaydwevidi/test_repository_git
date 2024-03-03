@@ -1,6 +1,7 @@
 const axios = require("axios");
 const pool = require("../config/db");
 const { getSubtitles } = require("youtube-captions-scraper");
+const open_ai_auth_token = process.env.OPEN_AI_KEY;
 
 exports.getSummary = async (req, res) => {
   console.log("\n\nInside Get Summary from User \n\n");
@@ -11,12 +12,13 @@ exports.getSummary = async (req, res) => {
     res.status(400).json({ message: "No User Id Provided" });
   }
 
-  const open_ai_auth_token = process.env.OPEN_AI_KEY;
   const videoId = req.body.video_id;
-
-  const addVideoToDbUrl = "http://localhost:3000/addVideoToDb";
+  if (!videoId) {
+    res.status(400).json({ message: "No Video Id Provided" });
+  }
 
   try {
+    const addVideoToDbUrl = "http://localhost:3000/addVideoToDb";
     const addVideoToDbResponse = await axios.post(addVideoToDbUrl, {
       ...req.body,
     });
