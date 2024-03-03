@@ -56,7 +56,8 @@ exports.summarize = async (req, res) => {
             summary: summaryContent,
             usage: usage,
             "word_limit" : summary_word_count,
-            "Additional Instructions" : additional_instructions
+            "Additional Instructions" : additional_instructions,
+            "transcript" : subtitles_to_send
         };
 
     

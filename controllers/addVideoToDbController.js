@@ -52,6 +52,7 @@ exports.addVideoToDb = async (req, res) => {
         
                 // Process the internal API response
                 const summaryToSend = internalSummaryResponse.data.summary;
+                const videoTranscript = internalSummaryResponse.data.transcript;
         
                 const internalQuestionsUrl = 'http://localhost:3000/getMcq';
                 const internalQuestionsResponse = await axios.post(internalQuestionsUrl, {
@@ -83,7 +84,7 @@ exports.addVideoToDb = async (req, res) => {
         
                     const [result] = await pool.query(
                         'INSERT INTO summaries (video_id, transcript, summary, q_and_a) VALUES (?, ?, ?, ?)',
-                        [video_id, "Transcript Place Holder", summaryToSend, JSON.stringify( q_and_a2)]
+                        [video_id, videoTranscript, summaryToSend, JSON.stringify( q_and_a2)]
                     );
             
                     res.status(201).json({ response : responseObj, cache_hit: 'New Data, Strored In Database', videoId: video_id });
