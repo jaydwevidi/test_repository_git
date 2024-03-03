@@ -38,17 +38,25 @@ exports.addVideoToDb = async (req, res) => {
             const internalSummaryUrl = 'http://localhost:3000/summarize';
 
             try {
-            const internalSummaryResponse = await axios.post(internalSummaryUrl, {
-                video_id: videoId,
-                word_limit: summary_word_count,
-                additional_instructions: additional_instructions,
-                llm_model: llm_model,
-            });
-        } catch (error) {
-            console.error('Error:', error);
-            res.status(500).json({ error: 'Internal Server Error while summary generation ', message: error.message , data : internalSummaryResponse });
-        
-        }
+                const internalSummaryResponse = await axios.post(internalSummaryUrl, {
+                    video_id: videoId,
+                    word_limit: summary_word_count,
+                    additional_instructions: additional_instructions,
+                    llm_model: llm_model,
+                });
+            } catch (error) {
+                console.error('Error:', error);
+            
+                // Check if the error has a response with data
+                const errorData = error.response ? error.response.data : {};
+            
+                res.status(500).json({
+                    error: 'Internal Server Error while summary generation',
+                    message: error.message,
+                    details: errorData // Include the error data from the Axios response
+                });
+            }
+            
 
             // Process the internal API response
             const { summary: summaryToSend, transcript: videoTranscript } = internalSummaryResponse.data;
