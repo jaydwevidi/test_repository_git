@@ -83,7 +83,7 @@ exports.addVideoToDb = async (req, res) => {
         
                     const [result] = await pool.query(
                         'INSERT INTO summaries (video_id, transcript, summary, q_and_a) VALUES (?, ?, ?, ?)',
-                        [video_id, "Transcript Place Holder", summaryToSend, q_and_a2]
+                        [video_id, "Transcript Place Holder", summaryToSend, JSON.stringify( q_and_a2)]
                     );
             
                     res.status(201).json({ response : responseObj, cache_hit: 'New Data, Strored In Database', videoId: video_id });
