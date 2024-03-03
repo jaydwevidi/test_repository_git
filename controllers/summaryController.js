@@ -59,6 +59,7 @@ exports.summarize = async (req, res) => {
             "word_limit" : summary_word_count,
             "Additional Instructions" : additional_instructions
         };
+        
     
         res.status(200).send(customResponse); // Sending the custom response
     } catch (error) {
