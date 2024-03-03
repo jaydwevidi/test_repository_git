@@ -26,7 +26,7 @@ exports.getSummary = async (req, res) => {
     // Define summaryContent and usage variables here
 
     await pool.query(
-      "INSERT INTO userRequests (videoId, userId, email, total_tokens , completion_tokens , prompt_tokens , score, totalScore ) VALUES (?, ?, ?, ? , ? , ? , ? )",
+      "INSERT INTO userRequests (videoId, userId, total_tokens , completion_tokens , prompt_tokens , score, totalScore ) VALUES (?, ?, ?, ? , ? , ? , ? )",
       [
         videoId,
         userId,
