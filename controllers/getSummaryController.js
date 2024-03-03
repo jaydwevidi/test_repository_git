@@ -27,7 +27,14 @@ exports.getSummary = async (req, res) => {
 
     await pool.query(
       "INSERT INTO userRequests (videoId, userId, email, tokenUsed, score, totalScore ) VALUES (?, ?, ?, ? , ? , ?)",
-      [videoId, userId, "email placeholder", 5023, 2, 3]
+      [
+        videoId,
+        userId,
+        "email placeholder",
+        addVideoToDbResponse.data.total_tokens,
+        2,
+        3,
+      ]
     );
 
     res.status(200).json({

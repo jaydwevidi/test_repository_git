@@ -29,8 +29,11 @@ exports.addVideoToDb = async (req, res) => {
 
     let cacheHitStatus;
     let responseData = { videoId };
+
     let tokenUsed = {
-      sent: 0,
+      prompt_tokens: 0,
+      completion_tokens: 0,
+      total_tokens: 0,
     };
 
     if (existingVideo.length > 0) {
@@ -117,7 +120,7 @@ exports.addVideoToDb = async (req, res) => {
     }
     console.log("\n\n Ready to return response.");
     res.status(200).json({
-      tokensUsed: tokenUsed,
+      tokenUsed: tokenUsed,
       ...responseData,
       cache_hit: cacheHitStatus,
     });
