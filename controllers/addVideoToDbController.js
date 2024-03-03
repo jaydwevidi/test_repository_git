@@ -36,7 +36,7 @@ exports.addVideoToDb = async (req, res) => {
         } else {
             // Define the internal API endpoint URL and any required parameters
             const internalSummaryUrl = 'http://localhost:3000/summarize';
-            var internalSummaryResponse;
+            let internalSummaryResponse; // Define outside of the try block
             try {
                 internalSummaryResponse = await axios.post(internalSummaryUrl, {
                     video_id: videoId,
@@ -50,27 +50,27 @@ exports.addVideoToDb = async (req, res) => {
                 // Check if the error has a response with data
                 const errorData = error.response ? error.response.data : {};
             
-                res.status(500).json({
+                return res.status(500).json({
                     error: 'Internal Server Error while summary generation',
                     message: error.message,
                     details: errorData // Include the error data from the Axios response
                 });
             }
             
-
             // Process the internal API response
             const { summary: summaryToSend, transcript: videoTranscript } = internalSummaryResponse.data;
 
             const internalQuestionsUrl = 'http://localhost:3000/getMcq';
-            try{
-            const internalQuestionsResponse = await axios.post(internalQuestionsUrl, {
-                summary: summaryToSend,
-                number_of_questions: req.body.number_of_questions
-            });
-        } catch (error){
-            console.error('Error:', error);
-            res.status(500).json({ error: 'Internal Server Error while mcq generation ', message: error.message });
-        }
+            let internalQuestionsResponse; // Define outside of the try block
+            try {
+                internalQuestionsResponse = await axios.post(internalQuestionsUrl, {
+                    summary: summaryToSend,
+                    number_of_questions: req.body.number_of_questions
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                return res.status(500).json({ error: 'Internal Server Error while mcq generation ', message: error.message });
+            }
             console.log("Summary to send -- \n\n" + summaryToSend);
 
             // Extract the data from the internalQuestionsResponse
