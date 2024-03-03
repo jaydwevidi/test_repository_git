@@ -28,7 +28,9 @@ exports.addVideoToDb = async (req, res) => {
 
     let cacheHitStatus;
     let responseData = { videoId };
-    let tokenUsed = 0;
+    let tokenUsed = {
+      sent: 0,
+    };
 
     if (existingVideo.length > 0) {
       // Video ID exists, so retrieve and store data in variables
@@ -110,11 +112,14 @@ exports.addVideoToDb = async (req, res) => {
         transcript: videoTranscript,
         summary: summaryToSend,
         q_and_a: questionsData,
-        tokenUsed: tokenUsed,
       };
     }
     console.log("\n\n Ready to return response.");
-    res.status(200).json({ ...responseData, cache_hit: cacheHitStatus });
+    res.status(200).json({
+      tokenUsed: tokenUsed,
+      ...responseData,
+      cache_hit: cacheHitStatus,
+    });
   } catch (error) {
     console.error("Error:", error);
     res
