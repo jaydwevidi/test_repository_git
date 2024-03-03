@@ -18,8 +18,6 @@ exports.getSummary = async (req, res) => {
     // Define summaryContent and usage variables here
 
     res.status(200).json({
-      questions: summaryContent,
-      usage: usage,
       response: addVideoToDbResponse.data,
     });
   } catch (error) {
