@@ -7,10 +7,6 @@ exports.summarize = async (req, res) => {
     const open_ai_auth_token = process.env.OPEN_AI_KEY;
     const videoId = req.body.video_id;
 
-    if (!videoId) {
-        return res.status(400).json({ error: 'No Video Id Provided' });
-    }
-
     const llm_model = req.body.llm_model || "gpt-3.5-turbo-0125";
     const summary_word_count = req.body.word_limit || 100;
     const additional_instructions = req.body.additional_instructions || "";
@@ -18,11 +14,16 @@ exports.summarize = async (req, res) => {
     console.log(`Using Model - ${llm_model}, Word Limit - ${summary_word_count}`);
 
     try {
-        const subtitles = await getSubtitles({
-            videoID: videoId,
-            lang: 'en'
-        });
-
+        try {
+            subtitles = await getSubtitles({
+                videoID: videoId,
+                lang: 'en'
+            });
+        } catch (error) {
+            console.error('Error fetching subtitles:', error);
+            return res.status(500).json({ error: 'Failed to fetch subtitles', message: error.message });
+        }
+        
         const subtitles_to_send = subtitles.map(subtitle => subtitle.text).join(' ');
 
         const requestBody = {
