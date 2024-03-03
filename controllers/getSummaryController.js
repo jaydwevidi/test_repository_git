@@ -1,4 +1,5 @@
 const axios = require("axios");
+const pool = require("../config/db");
 const { getSubtitles } = require("youtube-captions-scraper");
 
 exports.getSummary = async (req, res) => {
@@ -30,6 +31,7 @@ exports.getSummary = async (req, res) => {
     );
 
     res.status(200).json({
+      message: "Data Added in userRequests Successfully",
       ...addVideoToDbResponse.data,
     });
   } catch (error) {
