@@ -33,7 +33,7 @@ exports.addVideoToDb = async (req, res) => {
             // Video ID exists, so retrieve and store data in variables
             const transcript = existingVideo[0].transcript;
             const summary = existingVideo[0].summary;
-            const qna = existingVideo[0].qna;
+            const qna = existingVideo[0].q_and_a;
 
             // Do something with the retrieved data
             // For example, send it back in the response
