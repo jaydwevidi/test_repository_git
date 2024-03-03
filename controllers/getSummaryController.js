@@ -31,7 +31,7 @@ exports.getSummary = async (req, res) => {
         videoId,
         userId,
         "email placeholder",
-        addVideoToDbResponse.data.total_tokens,
+        addVideoToDbResponse.data.tokenUsed.total_tokens,
         2,
         3,
       ]

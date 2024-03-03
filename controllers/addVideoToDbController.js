@@ -120,7 +120,7 @@ exports.addVideoToDb = async (req, res) => {
     }
     console.log("\n\n Ready to return response.");
     res.status(200).json({
-      tokenUsed: tokenUsed,
+      token_used: tokenUsed,
       ...responseData,
       cache_hit: cacheHitStatus,
     });
