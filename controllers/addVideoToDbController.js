@@ -37,7 +37,7 @@ exports.addVideoToDb = async (req, res) => {
 
             // Do something with the retrieved data
             // For example, send it back in the response
-            res.status(200).json({ message: 'Old Video_id , Retrived Successfully', transcript:  transcript, summary : summary, q_and_a : qna });
+            res.status(200).json({ message: 'Old Video_id , Retrived Successfully', transcript:  transcript, summary : summary, q_and_a : JSON.parse(q_and_a)  });
         } else {
             try {
 
