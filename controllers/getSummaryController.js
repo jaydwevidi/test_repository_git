@@ -18,8 +18,7 @@ exports.getSummary = async (req, res) => {
 
   try {
     const addVideoToDbResponse = await axios.post(addVideoToDbUrl, {
-      video_id: req.body.video_id,
-      number_of_questions: req.body.number_of_questions,
+      ...req.body,
     });
     console.log("Response from addVideoToDb:", addVideoToDbResponse.data);
 
@@ -41,9 +40,17 @@ exports.getSummary = async (req, res) => {
     res.status(200).json({
       message: "Data Added in userRequests Successfully",
       ...addVideoToDbResponse.data,
+      user_id: userId,
     });
   } catch (error) {
     console.error("Error in addVideoToDb request:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    const errorData = error.response ? error.response.data : {};
+    res
+      .status(500)
+      .json({
+        error: "Internal Server Error",
+        message: error.message,
+        errorData: errorData,
+      });
   }
 };
