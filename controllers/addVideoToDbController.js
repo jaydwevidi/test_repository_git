@@ -28,6 +28,7 @@ exports.addVideoToDb = async (req, res) => {
 
     let cacheHitStatus;
     let responseData = { videoId };
+    let tokenUsed = 0;
 
     if (existingVideo.length > 0) {
       // Video ID exists, so retrieve and store data in variables
@@ -69,6 +70,8 @@ exports.addVideoToDb = async (req, res) => {
       const { summary: summaryToSend, transcript: videoTranscript } =
         internalSummaryResponse.data;
 
+      tokenUsed = internalSummaryResponse.data.usuage;
+
       console.log(`1internal summary response data summary - ${summaryToSend}`);
 
       const internalQuestionsUrl = "http://localhost:3000/getMcq";
@@ -107,6 +110,7 @@ exports.addVideoToDb = async (req, res) => {
         transcript: videoTranscript,
         summary: summaryToSend,
         q_and_a: questionsData,
+        tokenUsed: tokenUsed,
       };
     }
     console.log("\n\n Ready to return response.");
