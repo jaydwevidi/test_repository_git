@@ -33,7 +33,6 @@ exports.summarize = async (req, res) => {
                     "role": "system",
                     "content": `Your Primary job summarize the transcript of the video in ${summary_word_count} words.
                     You should cover all the important points. Additional Instructions - ${additional_instructions}
-                    If the Additional Instructions are unrelated to the video transcript, Ignore the Additional Instructions. But let the user know that you are ignoring the additional comments and why you are ignoring it.
                     `
                 },
                 {
