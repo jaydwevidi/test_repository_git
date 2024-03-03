@@ -53,7 +53,7 @@ exports.addVideoToDb = async (req, res) => {
                 res.status(500).json({
                     error: 'Internal Server Error while summary generation',
                     message: error.message,
-                    details: errorData // Include the error data from the Axios response
+                    ...errorData // Include the error data from the Axios response
                 });
             }
             
