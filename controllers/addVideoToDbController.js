@@ -37,7 +37,7 @@ exports.addVideoToDb = async (req, res) => {
 
             // Do something with the retrieved data
             // For example, send it back in the response
-            res.status(200).json({ message: 'Video data retrieved successfully', transcript, summary, qna });
+            res.status(200).json({ message: 'Old Video_id , Retrived Successfully', transcript:  transcript, summary : summary, q_and_a : qna });
         } else {
             try {
 
@@ -62,13 +62,14 @@ exports.addVideoToDb = async (req, res) => {
                 console.log("summary to send -- \n\n" + summaryToSend);
         
                 // Extract the data from the internalQuestionsResponse
-                const questionsData = internalQuestionsResponse.data;
+                const questionsData = internalQuestionsResponse.data.questions;
         
                 console.log("\n\n internal question response ", questionsData);
         
                 // Create a response object containing the parsed data
                 const responseObj = {
-                    summary: summaryToSend
+                    summary: summaryToSend,
+                    q_and_a : questionsData
                 };
         
                 // Send the response object as JSON
@@ -81,10 +82,10 @@ exports.addVideoToDb = async (req, res) => {
         
                     const [result] = await pool.query(
                         'INSERT INTO summaries (video_id, transcript, summary, q_and_a) VALUES (?, ?, ?, ?)',
-                        [video_id, "description", summaryToSend, questionsData.questions]
+                        [video_id, "Transcript Place Holder", summaryToSend, questionsData.questions]
                     );
             
-                    res.status(201).json({ response : responseObj, message: 'Data stored successfully', videoId: video_id });
+                    res.status(201).json({ response : responseObj, cache_hit: 'New Data, Strored In Database', videoId: video_id });
                 } catch (error) {
                     res.status(500).json({ message: 'Error storing data', error: error.message });
                 }
