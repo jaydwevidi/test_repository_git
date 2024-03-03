@@ -21,7 +21,7 @@ exports.summarize = async (req, res) => {
             });
         } catch (error) {
             console.error('Error fetching subtitles:', error);
-            return res.status(500).json({ error: 'Failed to fetch subtitles', message: error.message });
+            return res.status(400).json({ error: 'Failed to fetch subtitles', message: error.message });
         }
         
         const subtitles_to_send = subtitles.map(subtitle => subtitle.text).join(' ');
