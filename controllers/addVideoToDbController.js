@@ -3,82 +3,80 @@ const pool = require('../config/db');
 
 exports.addVideoToDb = async (req, res) => {
     const videoId = req.body.video_id;
+
     if (!videoId) {
         return res.status(400).json({ error: 'No Video Id Provided' });
     }
 
-    const llmModel = req.body.llm_model || 'gpt-3.5-turbo-0125';
-    const summaryWordCount = req.body.word_limit || 100;
-    const additionalInstructions = req.body.additional_instructions || '';
+    const llm_model = req.body.llm_model || "gpt-3.5-turbo-0125";
+    const summary_word_count = req.body.word_limit || 100;
+    const additional_instructions = req.body.additional_instructions || "";
 
-    console.log(`Using Model - ${llmModel}, \nWord Limit - ${summaryWordCount}\nadditional instructions - ${additionalInstructions}`);
+    console.log(`Using Model - ${llm_model}, \nWord Limit - ${summary_word_count}\nadditional instructions - ${additional_instructions}`);
 
-    const existingVideo = await checkExistingVideo(videoId);
+    try {
+        // Check if the video_id already exists in the database
+        const [existingVideo] = await pool.query(
+            'SELECT * FROM summaries WHERE video_id = ?',
+            [videoId]
+        );
 
-    if (existingVideo) {
-        return res.status(200).json({
-            cache_hit: 'Old Video_id, Retrieved Successfully',
-            transcript: existingVideo.transcript,
-            summary: existingVideo.summary,
-            q_and_a: JSON.parse(existingVideo.q_and_a),
-            videoId: videoId
-        });
-    } else {
-        try {
-            const summaryData = await generateSummary(videoId, summaryWordCount, additionalInstructions, llmModel);
-            const questionsData = await generateQuestions(summaryData.summary, req.body.number_of_questions);
+        let cacheHitStatus;
+        let responseData = { videoId };
 
-            await storeVideoData(videoId, summaryData.transcript, summaryData.summary, questionsData);
-
-            res.status(201).json({
-                cache_hit: 'New Data, Stored In Database',
-                transcript: summaryData.transcript,
-                summary: summaryData.summary,
-                q_and_a: questionsData,    
-                videoId: videoId
+        if (existingVideo.length > 0) {
+            // Video ID exists, so retrieve and store data in variables
+            cacheHitStatus = 'Old Video_id, Retrieved Successfully';
+            responseData = {
+                ...responseData,
+                transcript: existingVideo[0].transcript,
+                summary: existingVideo[0].summary,
+                q_and_a: JSON.parse(existingVideo[0].q_and_a)
+            };
+        } else {
+            // Define the internal API endpoint URL and any required parameters
+            const internalSummaryUrl = 'http://localhost:3000/summarize';
+            const internalSummaryResponse = await axios.post(internalSummaryUrl, {
+                video_id: videoId,
+                word_limit: summary_word_count,
+                additional_instructions: additional_instructions,
+                llm_model: llm_model,
             });
-        } catch (error) {
-            console.error('Error processing video data:', error);
-            return res.status(500).json({ error: 'Internal Server Error' , cache_hit : "New Data, Error Storing in DB" });
+
+            // Process the internal API response
+            const { summary: summaryToSend, transcript: videoTranscript } = internalSummaryResponse.data;
+
+            const internalQuestionsUrl = 'http://localhost:3000/getMcq';
+            const internalQuestionsResponse = await axios.post(internalQuestionsUrl, {
+                summary: summaryToSend,
+                number_of_questions: req.body.number_of_questions
+            });
+
+            console.log("Summary to send -- \n\n" + summaryToSend);
+
+            // Extract the data from the internalQuestionsResponse
+            const questionsData = JSON.parse(internalQuestionsResponse.data.questions);
+
+            console.log("\n\nInternal question response ", questionsData);
+
+            // Insert the new data into the database
+            await pool.query(
+                'INSERT INTO summaries (video_id, transcript, summary, q_and_a) VALUES (?, ?, ?, ?)',
+                [videoId, videoTranscript, summaryToSend, JSON.stringify(questionsData)]
+            );
+
+            cacheHitStatus = 'New Data, Stored In Database';
+            responseData = {
+                ...responseData,
+                transcript: videoTranscript,
+                summary: summaryToSend,
+                q_and_a: questionsData
+            };
         }
+
+        res.status(200).json({ ...responseData, cache_hit: cacheHitStatus });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Internal Server Error', message: error.message });
     }
 };
-
-async function checkExistingVideo(videoId) {
-    const [existingVideo] = await pool.query('SELECT * FROM summaries WHERE video_id = ?', [videoId]);
-    return existingVideo.length > 0 ? existingVideo[0] : null;
-}
-
-async function generateSummary(videoId, wordLimit, additionalInstructions, llmModel) {
-    const internalSummaryUrl = 'http://localhost:3000/summarize';
-    const internalSummaryResponse = await axios.post(internalSummaryUrl, {
-        video_id: videoId,
-        word_limit: wordLimit,
-        additional_instructions: additionalInstructions,
-        llm_model: llmModel
-    });
-
-    return {
-        summary: internalSummaryResponse.data.summary,
-        transcript: internalSummaryResponse.data.transcript
-    };
-}
-
-async function generateQuestions(summary, numberOfQuestions) {
-    const internalQuestionsUrl = 'http://localhost:3000/getMcq';
-    const internalQuestionsResponse = await axios.post(internalQuestionsUrl, {
-        summary: summary,
-        number_of_questions: numberOfQuestions
-    });
-
-    return JSON.parse(internalQuestionsResponse.data.questions);
-}
-
-async function storeVideoData(videoId, transcript, summary, qAndA) {
-    await pool.query('INSERT INTO summaries (video_id, transcript, summary, q_and_a) VALUES (?, ?, ?, ?)', [
-        videoId,
-        transcript,
-        summary,
-        JSON.stringify(qAndA)
-    ]);
-}
