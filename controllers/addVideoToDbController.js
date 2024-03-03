@@ -47,11 +47,15 @@ exports.addVideoToDb = async (req, res) => {
             const { summary: summaryToSend, transcript: videoTranscript } = internalSummaryResponse.data;
 
             const internalQuestionsUrl = 'http://localhost:3000/getMcq';
+            try{
             const internalQuestionsResponse = await axios.post(internalQuestionsUrl, {
                 summary: summaryToSend,
                 number_of_questions: req.body.number_of_questions
             });
-
+        } catch (error){
+            console.error('Error:', error);
+            res.status(500).json({ error: 'Internal Server Error', message: error.message });
+        }
             console.log("Summary to send -- \n\n" + summaryToSend);
 
             // Extract the data from the internalQuestionsResponse
