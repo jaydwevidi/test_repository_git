@@ -3,6 +3,13 @@ const { getSubtitles } = require("youtube-captions-scraper");
 
 exports.getSummary = async (req, res) => {
   console.log("\n\nInside Get Summary from User \n\n");
+
+  const userId = req.body.user_id;
+
+  if (!userId) {
+    res.status(400).json({ message: "No User Id Provided" });
+  }
+
   const open_ai_auth_token = process.env.OPEN_AI_KEY;
   const videoId = req.body.video_id;
 
@@ -17,8 +24,13 @@ exports.getSummary = async (req, res) => {
 
     // Define summaryContent and usage variables here
 
+    await pool.query(
+      "INSERT INTO userRequests (video_id, userId, email, tokenUsed, score, totalScore ) VALUES (?, ?, ?, ?)",
+      [videoId, userId, "email placeholder", 5023, 2, 3]
+    );
+
     res.status(200).json({
-      response: addVideoToDbResponse.data,
+      ...addVideoToDbResponse.data,
     });
   } catch (error) {
     console.error("Error in addVideoToDb request:", error);
