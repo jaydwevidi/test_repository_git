@@ -3,6 +3,7 @@ const axios = require("axios");
 const { getSubtitles } = require("youtube-captions-scraper");
 
 exports.getSummary = async (req, res) => {
+  console.log("\n\nInside Get Summary from User \n\n");
   const open_ai_auth_token = process.env.OPEN_AI_KEY;
   const videoId = req.body.video_id;
 
@@ -16,8 +17,6 @@ exports.getSummary = async (req, res) => {
   console.log("\n\n\n\n\n\n " + addVideoToDbResponse);
 
   res.status(200).json({
-    questions: summaryContent,
-    usage: usage,
     respon: addVideoToDbResponse,
   });
 };
