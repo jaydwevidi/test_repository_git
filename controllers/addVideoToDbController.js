@@ -80,7 +80,7 @@ exports.addVideoToDb = async (req, res) => {
                     // Insert the new data into the summaries table
         
                     const [result] = await pool.query(
-                        'INSERT INTO summaries (video_id, description, summary, qna) VALUES (?, ?, ?, ?)',
+                        'INSERT INTO summaries (video_id, transcript, summary, q_and_a) VALUES (?, ?, ?, ?)',
                         [video_id, "description", summaryToSend, questionsData.questions]
                     );
             
