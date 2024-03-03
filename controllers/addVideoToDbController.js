@@ -5,6 +5,7 @@ exports.addVideoToDb = async (req, res) => {
   console.log(
     "\nStarting Add Video To DB  \n\n\n\n video id - " + req.body.video_id
   );
+
   const videoId = req.body.video_id;
 
   if (!videoId) {
@@ -72,7 +73,7 @@ exports.addVideoToDb = async (req, res) => {
       const { summary: summaryToSend, transcript: videoTranscript } =
         internalSummaryResponse.data;
 
-      tokenUsed = internalSummaryResponse.data.usuage;
+      tokenUsed = internalSummaryResponse.data.usage;
 
       console.log(`1internal summary response data summary - ${summaryToSend}`);
 
@@ -116,7 +117,7 @@ exports.addVideoToDb = async (req, res) => {
     }
     console.log("\n\n Ready to return response.");
     res.status(200).json({
-      tokenUsed: tokenUsed,
+      tokensUsed: tokenUsed,
       ...responseData,
       cache_hit: cacheHitStatus,
     });
