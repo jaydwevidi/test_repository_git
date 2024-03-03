@@ -18,17 +18,18 @@ app.use(express.urlencoded({ extended: true }));
 // Importing routes
 const userRoutes = require('./routes/userRoutes');
 const summaryRoutes = require('./routes/summaryRoutes');
+const getMcqRoutes = require('./routes/getMcq')
 
 // Using routes
 app.use('/users', userRoutes);
 app.use('/summarize', summaryRoutes);
+app.use('/getMcq', getMcqRoutes)
 
 
-app.post('/get-transcript', (req, res) => {
-  const body = req.body;
-  console.log('Received POST request:', body);
-  res.status(200).json({ message: 'POST request received', data: body });
-});
+
+const addVideoToDbController = require('./routes/addVideoToDbRoutes')
+app.use('/addVideoToDb' , addVideoToDbController)
+
 
 const PORT = 3000;
 app.listen(PORT, () => {

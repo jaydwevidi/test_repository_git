@@ -1,18 +1,27 @@
 const pool = require('../config/db');
 const crypto = require('crypto');
 
+const bcrypt = require('bcrypt');
+
 exports.register = async (req, res) => {
     try {
-      const { fname, lname, email, password, phone, gender, dob } = req.body;
-      const [result] = await pool.query(
-        'INSERT INTO users (fname, lname, email, password, phone, gender, dob) VALUES (?, ?, ?, ?, ?, ?, ?)',
-        [fname, lname, email, password, phone, gender, dob]
-      );
-      res.status(201).json({ message: 'User added successfully', userId: result.insertId });
+        const { fname, lname, email, password, phone, gender, dob } = req.body;
+
+        // Hash the password
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        const [result] = await pool.query(
+            'INSERT INTO users (fname, lname, email, password, phone, gender, dob) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            [fname, lname, email, hashedPassword, phone, gender, dob]
+        );
+
+        res.status(201).json({ message: 'User added successfully', userId: result.insertId });
     } catch (error) {
-      res.status(500).json({ message: 'Error adding user', error: error.message });
+        res.status(500).json({ message: 'Error adding user', error: error.message });
     }
-  };
+};
+
 
 exports.login = async (req, res) => {
     try {
@@ -22,8 +31,11 @@ exports.login = async (req, res) => {
         if (usersByEmail.length === 0) {
             return res.status(404).json({ message: 'Email does not exist' });
         }
+
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
   
-        const [users] = await pool.query('SELECT * FROM users WHERE email = ? AND password = ?', [email, password]);
+        const [users] = await pool.query('SELECT * FROM users WHERE email = ? AND password = ?', [email, hashedPassword]);
   
         if (users.length === 0) {
             return res.status(401).json({ message: 'Invalid email or password' });
@@ -40,26 +52,20 @@ exports.login = async (req, res) => {
     }
   };
 
-  exports.verifyToken = async (req, res) => {
+  exports.getUserDetails = async (req, res) => {
     try {
-        const { token } = req.body;
-        const [tokens] = await pool.query('SELECT * FROM tokens WHERE token = ?', [token]);
+        const userEmail = req.email;
 
-        if (tokens.length === 0) {
-            return res.status(404).json({ message: 'Token not found' });
+        const [users] = await pool.query('SELECT * FROM users WHERE email = ?', [userEmail]);
+
+        if (users.length === 0) {
+            return res.status(404).json({ message: 'User not found' });
         }
 
-        // Assuming you have a column in your tokens table named 'expires_at' that stores the expiration date of the token
-        const tokenData = tokens[0];
-        const now = new Date();
-        const expirationDate = new Date(tokenData.expires_at);
+        const userData = users[0];
 
-        if (now > expirationDate) {
-            return res.status(401).json({ message: 'Token expired' });
-        }
-
-        res.json({ message: 'Token is valid' });
+        res.json({ name: userData.name, email: userData.email });
     } catch (error) {
-        res.status(500).json({ message: 'Error verifying token', error: error.message });
+        res.status(500).json({ message: 'Error fetching user details', error: error.message });
     }
 };
