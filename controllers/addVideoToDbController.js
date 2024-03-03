@@ -69,7 +69,7 @@ exports.addVideoToDb = async (req, res) => {
                 // Create a response object containing the parsed data
                 const responseObj = {
                     summary: summaryToSend,
-                    q_and_a : questionsData
+                    q_and_a : JSON.parse(questionsData)
                 };
         
                 // Send the response object as JSON
