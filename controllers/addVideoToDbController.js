@@ -2,6 +2,7 @@ const axios = require("axios");
 const pool = require("../config/db");
 
 exports.addVideoToDb = async (req, res) => {
+  console.log("\nStarting Add Video To DB\n");
   const videoId = req.body.video_id;
 
   if (!videoId) {
