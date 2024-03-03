@@ -2,7 +2,9 @@ const axios = require("axios");
 const pool = require("../config/db");
 
 exports.addVideoToDb = async (req, res) => {
-  console.log("\nStarting Add Video To DB\n");
+  console.log(
+    "\nStarting Add Video To DB  \n\n\n\n video id - " + req.body.video_id
+  );
   const videoId = req.body.video_id;
 
   if (!videoId) {
@@ -36,10 +38,13 @@ exports.addVideoToDb = async (req, res) => {
         summary: existingVideo[0].summary,
         q_and_a: JSON.parse(existingVideo[0].q_and_a),
       };
+
+      console.log(`Caches hit \n\n - ${cacheHitStatus}`);
     } else {
       // Define the internal API endpoint URL and any required parameters
       const internalSummaryUrl = "http://localhost:3000/summarize";
       let internalSummaryResponse; // Define outside of the try block
+
       try {
         internalSummaryResponse = await axios.post(internalSummaryUrl, {
           video_id: videoId,
@@ -64,6 +69,8 @@ exports.addVideoToDb = async (req, res) => {
       const { summary: summaryToSend, transcript: videoTranscript } =
         internalSummaryResponse.data;
 
+      console.log(`1internal summary response data summary - ${summaryToSend}`);
+
       const internalQuestionsUrl = "http://localhost:3000/getMcq";
       let internalQuestionsResponse; // Define outside of the try block
       try {
@@ -78,20 +85,21 @@ exports.addVideoToDb = async (req, res) => {
           message: error.message,
         });
       }
-      console.log("Summary to send -- \n\n" + summaryToSend);
 
       // Extract the data from the internalQuestionsResponse
       const questionsData = JSON.parse(
         internalQuestionsResponse.data.questions
       );
 
-      console.log("\n\nInternal question response ", questionsData);
+      console.log("\n\n1 Internal question response ", questionsData);
 
       // Insert the new data into the database
       await pool.query(
         "INSERT INTO summaries (video_id, transcript, summary, q_and_a) VALUES (?, ?, ?, ?)",
         [videoId, videoTranscript, summaryToSend, JSON.stringify(questionsData)]
       );
+
+      console.log("\n\n1   Pool Query Successful");
 
       cacheHitStatus = "New Data, Stored In Database";
       responseData = {
@@ -101,7 +109,7 @@ exports.addVideoToDb = async (req, res) => {
         q_and_a: questionsData,
       };
     }
-
+    console.log("\n\n Ready to return response.");
     res.status(200).json({ ...responseData, cache_hit: cacheHitStatus });
   } catch (error) {
     console.error("Error:", error);
