@@ -63,13 +63,14 @@ exports.addVideoToDb = async (req, res) => {
         
                 // Extract the data from the internalQuestionsResponse
                 const questionsData = internalQuestionsResponse.data.questions;
+                const q_and_a2 = JSON.parse(questionsData)
         
                 console.log("\n\n internal question response ", questionsData);
         
                 // Create a response object containing the parsed data
                 const responseObj = {
                     summary: summaryToSend,
-                    q_and_a : JSON.parse(questionsData)
+                    q_and_a : q_and_a2
                 };
         
                 // Send the response object as JSON
@@ -82,7 +83,7 @@ exports.addVideoToDb = async (req, res) => {
         
                     const [result] = await pool.query(
                         'INSERT INTO summaries (video_id, transcript, summary, q_and_a) VALUES (?, ?, ?, ?)',
-                        [video_id, "Transcript Place Holder", summaryToSend, String(questionsData.questions)]
+                        [video_id, "Transcript Place Holder", summaryToSend, q_and_a2]
                     );
             
                     res.status(201).json({ response : responseObj, cache_hit: 'New Data, Strored In Database', videoId: video_id });
