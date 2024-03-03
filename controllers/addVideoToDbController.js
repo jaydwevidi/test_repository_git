@@ -46,7 +46,7 @@ exports.addVideoToDb = async (req, res) => {
             });
         } catch (error) {
             console.error('Error:', error);
-            res.status(500).json({ error: 'Internal Server Error while summary generation ', message: error.message });
+            res.status(500).json({ error: 'Internal Server Error while summary generation ', message: error.message , data : internalSummaryResponse });
         
         }
 
