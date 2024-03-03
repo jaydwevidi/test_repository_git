@@ -36,13 +36,18 @@ exports.getMcq = async (req, res) => {
 
     const summary = req.body.summary;
 
-    console.log(` summary - ${summary}`);
     if (!summary){
         return res.status(400).json({ error: 'No Summary Provided' }); 
     }
 
     const llm_model = req.body.llm_model || "gpt-3.5-turbo-0125";
     const number_of_questions = req.body.number_of_questions || 3;
+
+    if(number_of_questions > 5){
+        number_of_questions = 5;
+    }
+
+    
     console.log(`Using Model - ${llm_model}`);
 
     try {
