@@ -13,7 +13,11 @@ exports.getSummary = async (req, res) => {
     number_of_questions: req.body.number_of_questions,
   });
 
-  res
-    .status(200)
-    .json({ message: "getSummary Working", ...addVideoToDbResponse });
+  console.log("\n\n\n\n\n\n " + addVideoToDbResponse);
+
+  res.status(200).json({
+    questions: summaryContent,
+    usage: usage,
+    respon: addVideoToDbResponse,
+  });
 };
