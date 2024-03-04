@@ -48,7 +48,7 @@ exports.getSummary = async (req, res) => {
     console.error("Error in addVideoToDb request:", error);
     const errorData = error.response ? error.response.data : {};
     res.status(500).json({
-      error: "Internal Server Error",
+      error: "Internal Server Error ",
       message: error.message,
       ...errorData,
     });
