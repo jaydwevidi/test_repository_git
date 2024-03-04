@@ -31,7 +31,7 @@ exports.addVideoToDb = async (req, res) => {
         ...responseData,
         transcript: existingVideo[0].transcript,
         summary: existingVideo[0].summary,
-        q_and_a: JSON.parse(existingVideo[0].q_and_a),
+        mcq: JSON.parse(existingVideo[0].q_and_a),
       };
 
       console.log(`Caches hit \n\n - ${cacheHitStatus}`);
@@ -100,7 +100,7 @@ exports.addVideoToDb = async (req, res) => {
         ...responseData,
         transcript: videoTranscript,
         summary: summaryToSend,
-        q_and_a: questionsData,
+        mcq: questionsData,
       };
     }
     console.log("\n\n Ready to return response.");
