@@ -20,9 +20,8 @@ exports.summarize = async (req, res) => {
 
     let subtitles_to_send = subtitles
       .map((subtitle) => subtitle.text)
-      .join(" ");
-
-    subtitles_to_send = subtitles_to_send.slice(0, 5000); // Delete Later
+      .join(" ")
+      .slice(0, 5000);
 
     const requestBody = {
       model: llm_model,
