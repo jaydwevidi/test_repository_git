@@ -6,6 +6,8 @@ exports.addVideoToDb = async (req, res) => {
     "\nStarting Add Video To DB  \n\n\n\n video id - " + req.body.video_id
   );
 
+  const videoId = req.body.video_id;
+
   try {
     // Check if the video_id already exists in the database
     const [existingVideo] = await pool.query(
