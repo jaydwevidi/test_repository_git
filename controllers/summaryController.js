@@ -22,19 +22,7 @@ exports.summarize = async (req, res) => {
       .map((subtitle) => subtitle.text)
       .join(" ");
 
-    subtitles_to_send = subtitles_to_send.slice(0, 10000);
-
-    /*
-
-        Limit to 1000 word description / transcript
-        const subtitles_to_send = subtitles
-  .map(subtitle => subtitle.text)
-  .join(' ')
-  .split(' ')
-  .slice(0, 1000)
-  .join(' ');
-
-        */
+    subtitles_to_send = subtitles_to_send.slice(0, 5000); // Delete Later
 
     const requestBody = {
       model: llm_model,
