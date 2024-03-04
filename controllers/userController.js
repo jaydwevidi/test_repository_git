@@ -78,20 +78,21 @@ exports.login = async (req, res) => {
 
 exports.getUserDetails = async (req, res) => {
   try {
-    const email = req.email;
+    const email = req.body.email;
 
     if (!email) {
       return res.status(400).json({
         message: "Please provide email",
+        reqBody: req.body,
       });
     }
 
     const [users] = await pool.query("SELECT * FROM users WHERE email = ?", [
-      userEmail,
+      email,
     ]);
 
     if (users.length === 0) {
-      return res.status(404).json({ message: "User not found " + userEmail });
+      return res.status(404).json({ message: "User not found " + email });
     }
 
     const userData = users[0];
