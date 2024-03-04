@@ -82,8 +82,7 @@ exports.getUserDetails = async (req, res) => {
 
     if (!email) {
       return res.status(400).json({
-        message:
-          "Please provide all required fields: fname, lname, email, password, phone, gender, dob",
+        message: "Please provide email",
       });
     }
 
@@ -101,6 +100,10 @@ exports.getUserDetails = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Error fetching user details", error: error.message });
+      .json({
+        message: "Error fetching user details",
+        error: error.message,
+        reqBody: req.body,
+      });
   }
 };
