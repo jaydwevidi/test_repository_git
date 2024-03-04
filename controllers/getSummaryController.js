@@ -1,6 +1,24 @@
 const axios = require("axios");
 const pool = require("../config/db");
 
+function extractYouTubeID(input) {
+  console.log("Input:", input);
+
+  // Check if input is a valid YouTube ID
+  if (/^[a-zA-Z0-9_-]{11}$/.test(input)) {
+    console.log("Valid YouTube ID:", input);
+    return input;
+  }
+
+  // Extract the YouTube ID from the URL
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = input.match(regExp);
+
+  const result = match && match[2].length === 11 ? match[2] : null;
+  console.log("Extracted YouTube ID:", result);
+  return result;
+}
+
 exports.getSummary = async (req, res) => {
   console.log("\n\nInside Get Summary from User \n\n");
 
@@ -10,15 +28,18 @@ exports.getSummary = async (req, res) => {
     res.status(400).json({ message: "No User Id Provided" });
   }
 
-  const videoId = req.body.video_id;
+  let videoId = req.body.video_id;
   if (!videoId) {
     res.status(400).json({ message: "No Video Id Provided" });
   }
+
+  videoId = extractYouTubeID(videoId);
 
   try {
     const addVideoToDbUrl = "http://localhost:3000/addVideoToDb";
     const addVideoToDbResponse = await axios.post(addVideoToDbUrl, {
       ...req.body,
+      video_id: videoId,
     });
     console.log("Response from addVideoToDb:", addVideoToDbResponse.data);
 
