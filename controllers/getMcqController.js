@@ -2,6 +2,7 @@ const axios = require("axios");
 
 function constructPrompt(summary, number_of_q) {
   const prompt = `
+    Only Respond in JSON Format. 
     Given the summary: "${summary}", generate ${number_of_q} multiple-choice questions based on the content. Each question should have four options (A, B, C, D) and a correct answer. Format the output as JSON.
 
     Example:
@@ -15,14 +16,9 @@ function constructPrompt(summary, number_of_q) {
                 "D": "Madrid"
             },
             "answer": "A"
-        },
-        // more question and answers 
-
-        
+        }
+        // more questions
     ]
-
-
-    don't use new line, not necessary. As long as it's a valid json. I'm using your response inside a backend and as a api response directly.
     `;
   return prompt;
 }

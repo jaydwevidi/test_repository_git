@@ -1,7 +1,5 @@
 const axios = require("axios");
 const pool = require("../config/db");
-const { getSubtitles } = require("youtube-captions-scraper");
-const open_ai_auth_token = process.env.OPEN_AI_KEY;
 
 exports.getSummary = async (req, res) => {
   console.log("\n\nInside Get Summary from User \n\n");
@@ -26,8 +24,10 @@ exports.getSummary = async (req, res) => {
 
     // Define summaryContent and usage variables here
 
-    await pool.query(
-      "INSERT INTO userRequests (videoId, userId, total_tokens , completion_tokens , prompt_tokens , score, totalScore ) VALUES (?, ?, ?, ? , ? , ? , ? )",
+    const cacheHitInt = addVideoToDbResponse.data.cache_hit ? 1 : 0;
+
+    const [result] = await pool.query(
+      "INSERT INTO userRequests (videoId, userId, total_tokens, completion_tokens, prompt_tokens, score, totalScore, cache_hit) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
       [
         videoId,
         userId,
@@ -36,13 +36,16 @@ exports.getSummary = async (req, res) => {
         addVideoToDbResponse.data.token_used.prompt_tokens,
         null,
         null,
+        cacheHitInt,
       ]
     );
 
+    const insertedId = result.insertId;
+
     res.status(200).json({
-      message: "Data Added in userRequests Successfully",
-      ...addVideoToDbResponse.data,
+      mcq_id: insertedId,
       user_id: userId,
+      ...addVideoToDbResponse.data,
     });
   } catch (error) {
     console.error("Error in addVideoToDb request:", error);

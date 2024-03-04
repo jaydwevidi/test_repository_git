@@ -26,7 +26,7 @@ exports.addVideoToDb = async (req, res) => {
 
     if (existingVideo.length > 0) {
       // Video ID exists, so retrieve and store data in variables
-      cacheHitStatus = "Old Video_id, Retrieved Successfully";
+      cacheHitStatus = true;
       responseData = {
         ...responseData,
         transcript: existingVideo[0].transcript,
@@ -95,7 +95,7 @@ exports.addVideoToDb = async (req, res) => {
 
       console.log("\n\n1   Pool Query Successful");
 
-      cacheHitStatus = "New Data, Stored In Database";
+      cacheHitStatus = false;
       responseData = {
         ...responseData,
         transcript: videoTranscript,
@@ -105,9 +105,9 @@ exports.addVideoToDb = async (req, res) => {
     }
     console.log("\n\n Ready to return response.");
     res.status(200).json({
+      cache_hit: cacheHitStatus,
       token_used: tokenUsed,
       ...responseData,
-      cache_hit: cacheHitStatus,
     });
   } catch (error) {
     console.error("Error:", error);
