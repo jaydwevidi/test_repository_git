@@ -1,9 +1,10 @@
 const jwt = require("jsonwebtoken");
-const SECRET_KEY = "your_secret_key"; // Use the same secret key used for signing the tokens
+const SECRET_KEY = "your_secret_key";
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1]; // Extract the token from the Authorization header
+  const token = authHeader && authHeader.split(" ")[1];
+  const requestBodyUserId = req.body.user_id; // Get the user_id from the request body
 
   if (!token) {
     return res.status(401).json({ message: "No token provided" });
@@ -11,8 +12,14 @@ const authenticateToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
-    req.email = decoded.email; // Set the user's email in the request object
-    next(); // Proceed to the next middleware or endpoint function
+
+    // Verify that the user_id in the request body matches the userId from the token
+    if (requestBodyUserId && decoded.userId !== requestBodyUserId) {
+      return res.status(403).json({ message: "User ID mismatch" });
+    }
+
+    req.userId = decoded.userId; // Override the user_id in the request object
+    next();
   } catch (error) {
     res.status(403).json({ message: "Invalid token" });
   }
