@@ -9,6 +9,14 @@ exports.register = async (req, res) => {
   try {
     const { fname, lname, email, password, phone, gender, dob } = req.body;
 
+    // Check if all required fields are provided
+    if (!fname || !lname || !email || !password || !phone || !gender || !dob) {
+      return res.status(400).json({
+        message:
+          "Please provide all required fields: fname, lname, email, password, phone, gender, dob",
+      });
+    }
+
     // Hash the password
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -31,6 +39,14 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        message:
+          "Please provide all required fields: fname, lname, email, password, phone, gender, dob",
+      });
+    }
+
     const [usersByEmail] = await pool.query(
       "SELECT * FROM users WHERE email = ?",
       [email]
@@ -64,12 +80,19 @@ exports.getUserDetails = async (req, res) => {
   try {
     const userEmail = req.email;
 
+    if (!email) {
+      return res.status(400).json({
+        message:
+          "Please provide all required fields: fname, lname, email, password, phone, gender, dob",
+      });
+    }
+
     const [users] = await pool.query("SELECT * FROM users WHERE email = ?", [
       userEmail,
     ]);
 
     if (users.length === 0) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "User not found " + userEmail });
     }
 
     const userData = users[0];
