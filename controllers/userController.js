@@ -97,7 +97,7 @@ exports.getUserDetails = async (req, res) => {
 
     const userData = users[0];
 
-    res.json({ name: userData.name, email: userData.email });
+    res.json({ name: userData, email: userData.email });
   } catch (error) {
     res.status(500).json({
       message: "Error fetching user details",
