@@ -33,7 +33,7 @@ exports.getMcq = async (req, res) => {
   const open_ai_auth_token = process.env.OPEN_AI_KEY;
   const summary = req.body.summary;
   const llm_model = req.body.llm_model || "gpt-3.5-turbo-0125";
-  let number_of_questions = req.body.number_of_questions || 3;
+  let number_of_questions = req.body.number_of_questions || 2;
 
   if (!summary) {
     return res.status(400).json({ error: "No Summary Provided" });

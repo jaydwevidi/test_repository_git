@@ -7,8 +7,12 @@ exports.summarize = async (req, res) => {
   const videoId = req.body.video_id;
 
   const llm_model = req.body.llm_model || "gpt-3.5-turbo-0125";
-  const summary_word_count = req.body.word_limit || 100;
+  let summary_word_count = req.body.word_limit || 50;
   const additional_instructions = req.body.additional_instructions || "";
+
+  if (summary_word_count > 300) {
+    summary_word_count = 300;
+  }
 
   console.log(`Using Model - ${llm_model}, Word Limit - ${summary_word_count}`);
 
