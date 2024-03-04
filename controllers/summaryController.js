@@ -18,9 +18,11 @@ exports.summarize = async (req, res) => {
       lang: "en",
     });
 
-    const subtitles_to_send = subtitles
+    let subtitles_to_send = subtitles
       .map((subtitle) => subtitle.text)
       .join(" ");
+
+    subtitles_to_send = subtitles_to_send.slice(0, 10000);
 
     /*
 
