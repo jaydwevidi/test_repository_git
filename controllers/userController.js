@@ -78,7 +78,7 @@ exports.login = async (req, res) => {
 
 exports.getUserDetails = async (req, res) => {
   try {
-    const userEmail = req.email;
+    const email = req.email;
 
     if (!email) {
       return res.status(400).json({
@@ -98,12 +98,10 @@ exports.getUserDetails = async (req, res) => {
 
     res.json({ name: userData.name, email: userData.email });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: "Error fetching user details",
-        error: error.message,
-        reqBody: req.body,
-      });
+    res.status(500).json({
+      message: "Error fetching user details",
+      error: error.message,
+      reqBody: req.body,
+    });
   }
 };
