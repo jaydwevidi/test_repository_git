@@ -36,12 +36,16 @@ exports.getSummary = async (req, res) => {
   videoId = extractYouTubeID(videoId);
 
   try {
-    const addVideoToDbUrl = "http://localhost:3000/addVideoToDb";
+    const addVideoToDbUrl = "http://localhost:3000/internal/addVideoToDb";
     const addVideoToDbResponse = await axios.post(addVideoToDbUrl, {
       ...req.body,
       video_id: videoId,
     });
-    console.log("Response from addVideoToDb:", addVideoToDbResponse.data);
+
+    console.log(
+      "\n\nResponse from addVideoToDb:\n\n",
+      addVideoToDbResponse.data
+    );
 
     // Define summaryContent and usage variables here
 

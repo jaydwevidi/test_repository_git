@@ -1,34 +1,11 @@
 const axios = require("axios");
-
-function constructPrompt(summary, number_of_q) {
-  const prompt = `
-    Only Respond in JSON Format. 
-    Given the summary: "${summary}", generate ${number_of_q} multiple-choice questions based on the content. Each question should have four options (A, B, C, D) and a correct answer. Format the output as JSON.
-
-    Example:
-    [
-        {
-            "question": "What is the capital of France?",
-            "options": {
-                "A": "Paris",
-                "B": "London",
-                "C": "Berlin",
-                "D": "Madrid"
-            },
-            "answer": "A"
-        }
-        // more questions
-    ]
-    `;
-  return prompt;
-}
+const open_ai_auth_token = process.env.OPEN_AI_KEY;
 
 exports.getMcq = async (req, res) => {
-  console.log("\n\n Inside Mcq \n\n");
+  console.log("\n\n Inside MCQ Generator \n\n");
 
-  const open_ai_auth_token = process.env.OPEN_AI_KEY;
   const summary = req.body.summary;
-  const llm_model = req.body.llm_model || "gpt-3.5-turbo-0125";
+  const llm_model = "gpt-3.5-turbo-0125";
   let number_of_questions = req.body.number_of_questions || 2;
 
   if (!summary) {
@@ -38,8 +15,6 @@ exports.getMcq = async (req, res) => {
   if (number_of_questions > 5) {
     number_of_questions = 5;
   }
-
-  console.log(`Using Model - ${llm_model}`);
 
   try {
     const requestBody = {
@@ -67,11 +42,12 @@ exports.getMcq = async (req, res) => {
       }
     );
 
-    const summaryContent = response.data.choices[0].message.content;
+    const mcqContent = response.data.choices[0].message.content;
     const usage = response.data.usage;
 
-    console.log(`\n\n Custom response - ${summaryContent}`);
-    res.status(200).json({ questions: summaryContent, usage: usage }); // Sending the custom response as JSON
+    console.log(`\n\n Custom response - ${mcqContent}`);
+
+    res.status(200).json({ questions: mcqContent, usage: usage });
   } catch (error) {
     console.error("Error:", error);
     res
@@ -79,3 +55,26 @@ exports.getMcq = async (req, res) => {
       .json({ error: "Internal Server Error", message: error.message });
   }
 };
+
+function constructPrompt(summary, number_of_q) {
+  const prompt = `
+    Only Respond in JSON Format. 
+    Given the summary: "${summary}", generate ${number_of_q} multiple-choice questions based on the content. Each question should have four options (A, B, C, D) and a correct answer. Format the output as JSON.
+
+    Example:
+    [
+        {
+            "question": "What is the capital of France?",
+            "options": {
+                "A": "Paris",
+                "B": "London",
+                "C": "Berlin",
+                "D": "Madrid"
+            },
+            "answer": "A"
+        }
+        // more questions
+    ]
+    `;
+  return prompt;
+}
