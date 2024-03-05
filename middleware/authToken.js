@@ -10,12 +10,18 @@ const authenticateToken = (req, res, next) => {
     return res.status(401).json({ message: "No token provided" });
   }
 
+  if (!requestBodyUserId) {
+    return res.status(401).json({ message: "No user_id provided" });
+  }
+
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
 
     // Verify that the user_id in the request body matches the userId from the token
     if (requestBodyUserId && decoded.userId !== requestBodyUserId) {
-      return res.status(403).json({ message: "User ID mismatch" });
+      return res
+        .status(403)
+        .json({ message: "User ID mismatch from jwt token" });
     }
 
     req.userId = decoded.userId; // Override the user_id in the request object
