@@ -4,27 +4,16 @@ const SECRET_KEY = "your_secret_key";
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-  const requestBodyUserId = req.body.user_id; // Get the user_id from the request body
 
   if (!token) {
     return res.status(401).json({ message: "No token provided" });
   }
 
-  if (!requestBodyUserId) {
-    return res.status(401).json({ message: "No user_id provided" });
-  }
-
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
 
-    // Verify that the user_id in the request body matches the userId from the token
-    if (requestBodyUserId && decoded.userId !== requestBodyUserId) {
-      return res
-        .status(403)
-        .json({ message: "User ID mismatch from jwt token" });
-    }
+    req.body.user_id = decoded.userId; // Override the user_id in the request object
 
-    req.userId = decoded.userId; // Override the user_id in the request object
     next();
   } catch (error) {
     res.status(403).json({ message: "Invalid token" });

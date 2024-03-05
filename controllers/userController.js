@@ -42,8 +42,7 @@ exports.login = async (req, res) => {
 
     if (!email || !password) {
       return res.status(400).json({
-        message:
-          "Please provide all required fields: fname, lname, email, password, phone, gender, dob",
+        message: "Please provide email & password",
       });
     }
 
@@ -82,7 +81,7 @@ exports.getUserDetails = async (req, res) => {
 
     if (!user_id) {
       return res.status(400).json({
-        message: "Please provide email",
+        message: "No User ID Provided. Internal Server Error",
         reqBody: req.body,
       });
     }
