@@ -10,8 +10,8 @@ exports.summarize = async (req, res) => {
   let summary_word_count = req.body.word_limit || 500;
   const additional_instructions = req.body.additional_instructions || "";
 
-  if (summary_word_count > 1000) {
-    summary_word_count = 1000;
+  if (summary_word_count > 200) {
+    summary_word_count = 200;
   }
 
   console.log(`Using Model - ${llm_model}, Word Limit - ${summary_word_count}`);
@@ -24,8 +24,8 @@ exports.summarize = async (req, res) => {
 
     let subtitles_to_send = subtitles
       .map((subtitle) => subtitle.text)
-      .join(" ");
-    //.slice(0, 5000)
+      .join(" ")
+      .slice(0, 3000);
 
     const requestBody = {
       model: llm_model,
