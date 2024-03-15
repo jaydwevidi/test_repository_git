@@ -14,7 +14,9 @@ exports.summarize = async (req, res) => {
     summary_word_count = 200;
   }
 
-  console.log(`Using Model - ${llm_model}, Word Limit - ${summary_word_count}`);
+  console.log(
+    `Using Model - ${llm_model}, Word Limit - ${summary_word_count} , openai token - ${open_ai_auth_token}`
+  );
 
   try {
     subtitles = await getSubtitles({

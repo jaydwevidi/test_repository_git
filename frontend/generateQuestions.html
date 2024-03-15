@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Generate Questions</title>
+</head>
+<body>
+    <h2>Generate Questions from Video</h2>
+    <form id="questionsForm">
+        <div>
+            <label for="video_id">Video URL:</label>
+            <input type="text" id="video_id" name="video_id" >
+        </div>
+        <div>
+            <label for="word_limit">Word Limit:</label>
+            <input type="number" id="word_limit" name="word_limit" placeholder="400">
+        </div>
+        <div>
+            <label for="number_of_questions">Number of Questions:</label>
+            <input type="number" id="number_of_questions" name="number_of_questions" placeholder="2">
+        </div>
+        <button type="submit">Generate</button>
+    </form>
+    <div id="result">Results will appear here...</div>
+
+    <!-- JavaScript file link (assuming it will be named generateQuestions.js) -->
+    <script src="generateQuestions.js"></script>
+</body>
+</html>

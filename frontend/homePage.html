@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Insight Hub</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+    </style>
+    <script src="verifyLogin.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Insight Hub</h1>
+        <button id="getUserDetails" class="button">Get User Details</button>
+        <button id="summarize" class="button">Summarize</button>
+        <button id="editProfile" class="button">Edit Profile</button>
+    </div>
+
+    <script>
+        console.log('Script loaded');
+
+        document.getElementById('getUserDetails').addEventListener('click', function() {
+            console.log('Get User Details clicked');
+            window.location.href = '/user-details';
+        });
+
+        document.getElementById('summarize').addEventListener('click', function() {
+            console.log('Summarize clicked');
+        });
+
+        document.getElementById('editProfile').addEventListener('click', function() {
+            console.log('Edit Profile clicked');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Details</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #e9ecef;
+        }
+        .user-details-container {
+            max-width: 1000px;
+            margin: 30px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .user-data {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .user-data li {
+            padding: 12px 20px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .user-data li:last-child {
+            border-bottom: none;
+        }
+        .user-data label {
+            font-weight: bold;
+            color: #343a40;
+        }
+        .user-data span {
+            float: right;
+            color: #495057;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="user-details-container">
+        <h2>User Details</h2>
+        <ul id="userData" class="user-data">
+            <!-- User details will be populated here -->
+        </ul>
+        <button id="logoutButton">Logout</button>
+    </div>
+
+    <script src="verifyLogin.js" defer></script>
+    <!-- JavaScript to handle fetching and displaying user details -->
+    <script src="userDetails.js"></script>
+
+    
+
+    <!-- Include the JavaScript file that contains the logout functionality -->
+    <script src="logout.js"></script>
+</body>
+</html>

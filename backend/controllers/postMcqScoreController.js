@@ -19,7 +19,7 @@ exports.postMcqScore = async (req, res) => {
   if (user_score > total_score) {
     return res
       .status(400)
-      .json({ error: "User score cannot be more than total score" });
+      .json({ error: "User  score cannot be more than total score" });
   }
 
   try {
