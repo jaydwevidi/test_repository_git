@@ -22,6 +22,7 @@ const userDataRoutes = require("./routes/userDataRoutes");
 
 // Using routes
 app.use("/users", userRoutes);
+
 app.use("/userData", userDataRoutes);
 app.use("/internal", internalRoutes);
 
