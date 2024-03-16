@@ -37,7 +37,7 @@ exports.register = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  console.log("Logging in User" + req);
+  console.log("Logging in User = " + JSON.stringify(req.body));
 
   try {
     const { email, password } = req.body;

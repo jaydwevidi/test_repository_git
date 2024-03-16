@@ -4,6 +4,7 @@ function handleLogin(event) {
 
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
+  const errorMessage = document.getElementById("errorMessage");
 
   fetch("http://localhost:3000/users/login", {
     method: "POST",
@@ -15,19 +16,27 @@ function handleLogin(event) {
       password: password,
     }),
   })
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        // Log the response status and message
+        console.log("Response status:", response.status);
+        console.log("Response json:", response.json);
+        return response.json(); // Convert response body to JSON
+      }
+      return response.json(); // Convert response body to JSON
+    })
     .then((data) => {
       if (data.token) {
         localStorage.setItem("token", data.token);
-        //alert("Login successful!");
         window.location.href = "/";
       } else {
-        alert("Login failed: " + data.message);
+        throw new Error("Token not received.");
       }
     })
     .catch((error) => {
       console.error("Error:", error);
-      alert("Login failed");
+      errorMessage.textContent =
+        "Login failed. Please check your credentials." + error;
     });
 }
 

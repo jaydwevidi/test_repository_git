@@ -34,6 +34,10 @@ app.get("/user-details", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "frontend", "userDetails.html"));
 });
 
+app.get("/summarize", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "frontend", "summarize.html"));
+});
+
 app.get("/generate-question", (req, res) => {
   res.sendFile(
     path.join(__dirname, "..", "frontend", "generateQuestions.html")
