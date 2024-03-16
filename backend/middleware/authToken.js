@@ -6,7 +6,7 @@ const authenticateToken = (req, res, next) => {
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
-    res.redirect("/login.html");
+    // res.redirect("/login.html");
     return res.status(401).json({ message: "No token provided" });
   }
 
@@ -18,7 +18,7 @@ const authenticateToken = (req, res, next) => {
     next();
   } catch (error) {
     res.status(403).json({ message: "Invalid token" });
-    res.redirect("/login.html");
+    //res.redirect("/login.html");
   }
 };
 

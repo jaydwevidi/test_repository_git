@@ -36,7 +36,7 @@ async function verifyLoginStatus() {
   const loggedIn = await isLoggedIn();
   if (!loggedIn) {
     console.log("User is NOT logged in");
-    window.location.href = "/login";
+    //window.location.href = "/login";
   } else {
     console.log("User is logged in");
     // User is logged in, proceed with your application logic

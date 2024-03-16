@@ -37,6 +37,7 @@ app.get("/login", (req, res) => {
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "frontend", "homePage.html"));
 });
+
 // Serve the userDetails page
 app.get("/user-details", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "frontend", "userDetails.html"));
