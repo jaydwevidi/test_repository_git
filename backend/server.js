@@ -6,7 +6,11 @@ const path = require("path");
 const app = express();
 
 // Body parsing middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://3.90.66.68:3000",
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
