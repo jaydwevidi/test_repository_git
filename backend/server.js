@@ -8,9 +8,10 @@ const app = express();
 // Body parsing middleware
 app.use(
   cors({
-    origin: "http://3.90.66.68:3000",
+    origin: "*",
   })
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
