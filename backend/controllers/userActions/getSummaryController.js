@@ -1,28 +1,5 @@
 const axios = require("axios");
-const pool = require("../config/db");
-
-function extractYouTubeID(input) {
-  try {
-    console.log("Input:", input);
-
-    // Check if input is a valid YouTube ID
-    if (/^[a-zA-Z0-9_-]{11}$/.test(input)) {
-      console.log("Valid YouTube ID:", input);
-      return input;
-    }
-
-    // Extract the YouTube ID from the URL
-    const regExp =
-      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = input.match(regExp);
-
-    const result = match && match[2].length === 11 ? match[2] : null;
-    console.log("Extracted YouTube ID:", result);
-    return result;
-  } catch {
-    return input;
-  }
-}
+const pool = require("../../config/db");
 
 exports.getSummary = async (req, res) => {
   console.log("\n\nInside Get Summary from User \n\n");
@@ -91,3 +68,26 @@ exports.getSummary = async (req, res) => {
     });
   }
 };
+
+function extractYouTubeID(input) {
+  try {
+    console.log("Input:", input);
+
+    // Check if input is a valid YouTube ID
+    if (/^[a-zA-Z0-9_-]{11}$/.test(input)) {
+      console.log("Valid YouTube ID:", input);
+      return input;
+    }
+
+    // Extract the YouTube ID from the URL
+    const regExp =
+      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = input.match(regExp);
+
+    const result = match && match[2].length === 11 ? match[2] : null;
+    console.log("Extracted YouTube ID:", result);
+    return result;
+  } catch {
+    return input;
+  }
+}

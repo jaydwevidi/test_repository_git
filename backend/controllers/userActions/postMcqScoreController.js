@@ -1,4 +1,4 @@
-const pool = require("../config/db");
+const pool = require("../../config/db");
 const axios = require("axios");
 
 exports.postMcqScore = async (req, res) => {

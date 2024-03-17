@@ -16,15 +16,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Importing routes
-const userRoutes = require("./routes/userRoutes");
+const userManagementRoutes = require("./routes/userManagementRoutes");
 const internalRoutes = require("./routes/internalRoutes");
-const userDataRoutes = require("./routes/userDataRoutes");
+const userActionsRoutes = require("./routes/userActionsRoutes");
+
+const uiRoutes = require("./routes/uiRoutes");
 
 // Using routes
-app.use("/users", userRoutes);
-
-app.use("/userData", userDataRoutes);
+app.use("/user/management", userManagementRoutes);
+app.use("/user/action", userActionsRoutes);
 app.use("/internal", internalRoutes);
+app.use("/ui", uiRoutes);
 
 // Serve static files from the frontend directory
 app.use(express.static(path.join(__dirname, "..", "frontend")));
@@ -32,10 +34,6 @@ app.use(express.static(path.join(__dirname, "..", "frontend")));
 // Serve the login page or other frontend pages
 app.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "frontend", "login.html"));
-});
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "frontend", "homePage.html"));
 });
 
 // Serve the userDetails page

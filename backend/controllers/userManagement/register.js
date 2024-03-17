@@ -1,4 +1,4 @@
-const pool = require("../config/db");
+const pool = require("../../config/db");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 
@@ -33,78 +33,6 @@ exports.register = async (req, res) => {
     res
       .status(500)
       .json({ message: "Error adding user", error: error.message });
-  }
-};
-
-exports.login = async (req, res) => {
-  console.log("Logging in User = " + JSON.stringify(req.body));
-
-  try {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({
-        message: "Please provide email & password",
-      });
-    }
-
-    const [usersByEmail] = await pool.query(
-      "SELECT * FROM users WHERE email = ?",
-      [email]
-    );
-
-    if (usersByEmail.length === 0) {
-      return res.status(404).json({ message: "Email does not exist" });
-    }
-
-    const user = usersByEmail[0];
-
-    // Check if the password is correct
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid password" });
-    }
-
-    // Create a JWT token
-    const token = jwt.sign({ userId: user.id }, SECRET_KEY, {
-      expiresIn: "1h",
-    });
-
-    res.json({ token });
-  } catch (error) {
-    res.status(500).json({ message: "Error logging in", error: error.message });
-  }
-};
-
-exports.getUserDetails = async (req, res) => {
-  try {
-    const user_id = req.body.user_id;
-
-    if (!user_id) {
-      return res.status(400).json({
-        message: "No User ID Provided. Internal Server Error",
-        reqBody: req.body,
-      });
-    }
-
-    const [users] = await pool.query("SELECT * FROM users WHERE id = ?", [
-      user_id,
-    ]);
-
-    if (users.length === 0) {
-      return res.status(404).json({ message: "User not found " + user_id });
-    }
-
-    const userData = users[0];
-
-    res.json({ ...userData });
-  } catch (error) {
-    res.status(500).json({
-      message: "Error fetching user details",
-      error: error.message,
-      reqBody: req.body,
-    });
   }
 };
 
