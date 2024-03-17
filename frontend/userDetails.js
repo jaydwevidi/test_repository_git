@@ -6,7 +6,7 @@ function fetchUserDetails() {
     return;
   }
 
-  fetch("/users/getUserDetails", {
+  fetch("/user/management/getUserDetails", {
     method: "POST", // Ensure this method is correct; it might be GET
     headers: {
       Authorization: `Bearer ${token}`,

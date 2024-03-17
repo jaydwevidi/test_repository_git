@@ -6,7 +6,7 @@ function handleLogin(event) {
   const password = document.getElementById("password").value;
   const errorMessage = document.getElementById("errorMessage");
 
-  fetch("/users/login", {
+  fetch("/user/management/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -28,7 +28,7 @@ function handleLogin(event) {
     .then((data) => {
       if (data.token) {
         localStorage.setItem("token", data.token);
-        window.location.href = "/";
+        window.location.href = "/ui/";
       } else {
         throw new Error("Token not received.");
       }

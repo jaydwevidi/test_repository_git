@@ -22,12 +22,12 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("Token:", token);
 
     if (!token) {
-      document.getElementById("result").innerHTML =
+      document.getElementById("result").textContent =
         "No authentication token found, please login.";
       return;
     }
 
-    fetch("/userData/getSummary", {
+    fetch("/user/action/getSummary", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,11 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .then((data) => {
         console.log("Received data:", data);
-        document.getElementById("result").textContent = JSON.stringify(
-          data,
-          null,
-          2
-        );
+        displayResults(data);
       })
       .catch((error) => {
         console.error(
@@ -65,4 +61,22 @@ document.addEventListener("DOMContentLoaded", function () {
         ).textContent = `Error fetching data: ${error}`;
       });
   });
+
+  function displayResults(data) {
+    const transcriptDiv = document.getElementById("transcript");
+    const summaryDiv = document.getElementById("summary");
+    const nextButton = document.getElementById("nextScreen");
+
+    transcriptDiv.style.display = "block";
+    summaryDiv.style.display = "block";
+    nextButton.style.display = "block";
+
+    transcriptDiv.textContent = `Transcript: ${data.transcript}`;
+    summaryDiv.textContent = `Summary: ${data.summary}`;
+
+    nextButton.addEventListener("click", () => {
+      // Logic to go to the next screen for MCQs will be implemented here
+      window.location.href = `mcq_screen.html?mcqId=your_mcq_id`;
+    });
+  }
 });
