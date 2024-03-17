@@ -44,7 +44,9 @@ app.get("/user-details", (req, res) => {
 });
 
 app.get("/summarize", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "frontend", "summarize.html"));
+  res.sendFile(
+    path.join(__dirname, "..", "frontend", "generateQuestions.html")
+  );
 });
 
 app.get("/generate-question", (req, res) => {
