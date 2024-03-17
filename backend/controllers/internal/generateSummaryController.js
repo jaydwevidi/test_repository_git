@@ -15,7 +15,7 @@ exports.summarize = async (req, res) => {
   }
 
   console.log(
-    `Starting Generating Summary Using Model - ${llm_model}, Word Limit - ${summary_word_count} , openai token - ${open_ai_auth_token}`
+    `\nStarting Generating Summary. Model - ${llm_model}, Word Limit - ${summary_word_count}`
   );
 
   try {

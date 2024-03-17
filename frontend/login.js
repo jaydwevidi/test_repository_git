@@ -1,5 +1,5 @@
-// Function to handle the login form submission
 function handleLogin(event) {
+  localStorage.removeItem("token");
   event.preventDefault();
 
   const email = document.getElementById("email").value;
@@ -18,14 +18,16 @@ function handleLogin(event) {
   })
     .then((response) => {
       if (!response.ok) {
-        // Log the response status and message
-        console.log("Response status:", response.status);
-        console.log("Response json:", response.json);
-        return response.json(); // Convert response body to JSON
+        // Log the response status
+        return response.json().then((data) => {
+          console.log("Error response data:", data); // Log the error response data
+          throw new Error(data.message || "Error during login");
+        });
       }
-      return response.json(); // Convert response body to JSON
+      return response.json(); // Convert and return response body to JSON
     })
     .then((data) => {
+      console.log("Response data:", data); // Log the success response data
       if (data.token) {
         localStorage.setItem("token", data.token);
         window.location.href = "/";
@@ -35,12 +37,10 @@ function handleLogin(event) {
     })
     .catch((error) => {
       console.error("Error:", error);
-      errorMessage.textContent =
-        "Login failed. Please check your credentials." + error;
+      errorMessage.textContent = "Login failed. " + error;
     });
 }
 
-// Attach the event listener to the login form
 document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("loginForm");
   if (loginForm) {
