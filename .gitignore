@@ -1,3 +1,3 @@
 .env
 backend/config/db.js
-/node_modules/bcrypt/
+node_modules/
