@@ -1,14 +1,11 @@
 const jwt = require("jsonwebtoken");
-
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
-  console.log(
-    `\nVerifying Authenticating token - ${token}\n , secret key - ${JWT_SECRET_KEY}`
-  );
+  console.log(`\nVerifying Authenticating token - ${token}`);
 
   if (!token) {
     console.log(`Token not Provided.`);
