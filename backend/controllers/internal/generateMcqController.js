@@ -2,12 +2,13 @@ const axios = require("axios");
 const open_ai_auth_token = process.env.OPEN_AI_KEY;
 
 exports.getMcq = async (req, res) => {
-  console.log("\n\n Inside MCQ Generator \n\n");
-
   const summary = req.body.summary;
   const llm_model = "gpt-3.5-turbo-0125";
   let number_of_questions = req.body.number_of_questions || 2;
 
+  console.log(
+    `\nInside MCQ Generator. llm - ${llm_model} ; number of questions - ${number_of_questions}`
+  );
   if (!summary) {
     return res.status(400).json({ error: "No Summary Provided" });
   }
@@ -45,8 +46,8 @@ exports.getMcq = async (req, res) => {
     const mcqContent = response.data.choices[0].message.content;
     const usage = response.data.usage;
 
-    console.log(`\n\n Custom response - ${mcqContent}`);
-
+    // console.log(`\n\n Custom response - ${mcqContent}`);
+    console.log("MCQ generation Successful.");
     res.status(200).json({ questions: mcqContent, usage: usage });
   } catch (error) {
     console.error("Error:", error);

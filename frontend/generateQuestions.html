@@ -4,35 +4,76 @@
     <meta charset="UTF-8">
     <title>Generate Questions</title>
     <style>
-        #transcript, #summary {
-            margin-bottom: 20px;
-            white-space: pre-wrap; /* Ensures formatting of the transcript/summary is maintained */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+
+        .container {
+            width: 50%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        label, input, button {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input, button {
+            width: 90%;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .scrollable-textarea {
+            width: 100%;
+            height: 200px;
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            overflow-y: auto;
+            padding: 10px;
+            white-space: pre-wrap;
+            border-radius: 5px;
         }
     </style>
-    <script src="verifyLogin.js" defer></script>
 </head>
 <body>
-    <h2>Generate Questions from Video</h2>
-    <form id="questionsForm">
-        <div>
-            <label for="video_id">Video URL:</label>
-            <input type="text" id="video_id" name="video_id" >
-        </div>
-        <div>
-            <label for="word_limit">Word Limit:</label>
-            <input type="number" id="word_limit" name="word_limit" placeholder="400">
-        </div>
-        <div>
-            <label for="number_of_questions">Number of Questions:</label>
-            <input type="number" id="number_of_questions" name="number_of_questions" placeholder="2">
-        </div>
-        <button type="submit">Generate</button>
-    </form>
-    <div id="transcript" style="display: none;"><strong>Transcript:</strong></div>
-    <div id="summary" style="display: none;"><strong>Summary:</strong></div>
-    <button id="nextScreen" style="display: none;">Go to Questions</button>
+    <div class="container">
+        <h2>Generate Questions from Video</h2>
+        <form id="questionsForm">
+            <div>
+                <label for="video_id">Video URL:</label>
+                <input type="text" id="video_id" name="video_id">
+            </div>
+            <div>
+                <label for="word_limit">Word Limit:</label>
+                <input type="number" id="word_limit" name="word_limit" placeholder="400">
+            </div>
+            <div>
+                <label for="number_of_questions">Number of Questions:</label>
+                <input type="number" id="number_of_questions" name="number_of_questions" placeholder="2">
+            </div>
+            <button type="submit">Generate</button>
+        </form>
+        <div id="transcript" class="scrollable-textarea" style="display: none;"><strong>Transcript:</strong></div>
+        <div id="summary" class="scrollable-textarea" style="display: none;"><strong>Summary:</strong></div>
+        <button id="nextScreen" style="display: none;">Go to Questions</button>
+    </div>
 
-    <!-- JavaScript file link (assuming it will be named generateQuestions.js) -->
+    <script src="verifyLogin.js" defer></script>
     <script src="generateQuestions.js"></script>
 </body>
 </html>

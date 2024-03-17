@@ -33,7 +33,7 @@
             opacity: 0.8;
         }
     </style>
-    <script src="verifyLogin.js" defer></script>
+    <!-- <script src="verifyLogin.js" defer></script> -->
 </head>
 <body>
     <div class="container">
@@ -44,19 +44,23 @@
     </div>
 
     <script>
+        console.log("inside homepage html script")
         document.getElementById('getUserDetails').addEventListener('click', function() {
             window.location.href = '/user-details';
         });
 
         document.getElementById('summarize').addEventListener('click', function() {
-            window.location.href = '/summarize';
+            window.location.href = '../../summarize';
             console.log('Summarize clicked');
         });
 
         document.getElementById('editProfile').addEventListener('click', function() {
             console.log('Edit Profile clicked');
         });
+
     </script>
+
+   <script src="verifyLogin.js" defer></script>
 </body>
 
 </html>

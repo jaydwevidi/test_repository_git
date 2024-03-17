@@ -28,11 +28,6 @@ exports.getSummary = async (req, res) => {
       video_id: videoId,
     });
 
-    console.log(
-      "\n\nResponse from addVideoToDb:\n\n",
-      addVideoToDbResponse.data
-    );
-
     // Define summaryContent and usage variables here
 
     const cacheHitInt = addVideoToDbResponse.data.cache_hit ? 1 : 0;
@@ -58,6 +53,11 @@ exports.getSummary = async (req, res) => {
       user_id: userId,
       ...addVideoToDbResponse.data,
     });
+    console.log(
+      "\n\nSummary send successfully. Total Tokens Used - ",
+      JSON.stringify(addVideoToDbResponse.data.token_used.total_tokens),
+      +"\n\n"
+    );
   } catch (error) {
     console.error("Error in addVideoToDb request:", error);
     const errorData = error.response ? error.response.data : {};
