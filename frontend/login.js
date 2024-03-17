@@ -28,7 +28,7 @@ function handleLogin(event) {
     .then((data) => {
       if (data.token) {
         localStorage.setItem("token", data.token);
-        window.location.href = "/ui/";
+        window.location.href = "/";
       } else {
         throw new Error("Token not received.");
       }

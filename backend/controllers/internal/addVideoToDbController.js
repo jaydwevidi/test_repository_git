@@ -18,7 +18,7 @@ exports.addVideoToDb = async (req, res) => {
       completion_tokens: 0,
       total_tokens: 0,
     };
-
+    console.log(`cache hit status - ${existingVideo.length > 0}`);
     if (existingVideo.length > 0) {
       // If Video Exists in DB
       cacheHitStatus = true;
@@ -55,10 +55,6 @@ exports.addVideoToDb = async (req, res) => {
         internalSummaryResponse.data;
 
       tokenUsed = internalSummaryResponse.data.usage;
-
-      console.log(
-        `\n\nInternal summary response data summary - ${summaryToSend} \n\n`
-      );
 
       const internalMcqQueryUrl = "http://localhost:3000/internal/getMcq";
       let internalMcqQueryResponse;

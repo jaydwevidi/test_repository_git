@@ -15,10 +15,11 @@ exports.summarize = async (req, res) => {
   }
 
   console.log(
-    `Using Model - ${llm_model}, Word Limit - ${summary_word_count} , openai token - ${open_ai_auth_token}`
+    `Starting Generating Summary Using Model - ${llm_model}, Word Limit - ${summary_word_count} , openai token - ${open_ai_auth_token}`
   );
 
   try {
+    console.log("Extracting Subtitles/Transcript");
     subtitles = await getSubtitles({
       videoID: videoId,
       lang: "en",
@@ -43,7 +44,7 @@ exports.summarize = async (req, res) => {
       ],
     };
 
-    const response = await axios.post(
+    const complete_req_body = await axios.post(
       "https://api.openai.com/v1/chat/completions",
       requestBody,
       {
@@ -54,8 +55,8 @@ exports.summarize = async (req, res) => {
       }
     );
 
-    const summaryContent = response.data.choices[0].message.content;
-    const usage = response.data.usage;
+    const summaryContent = complete_req_body.data.choices[0].message.content;
+    const usage = complete_req_body.data.usage;
 
     const customResponse = {
       summary: summaryContent,
@@ -64,6 +65,13 @@ exports.summarize = async (req, res) => {
       additional_instructions: additional_instructions,
       transcript: subtitles_to_send,
     };
+
+    console.log(
+      `\nSummary Generation Successful - ${customResponse.summary.slice(
+        0,
+        50
+      )} \n`
+    );
 
     res.status(200).json(customResponse); // Sending the custom response as JSON
   } catch (error) {

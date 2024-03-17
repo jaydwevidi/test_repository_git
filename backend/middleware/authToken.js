@@ -1,16 +1,19 @@
 const jwt = require("jsonwebtoken");
-const SECRET_KEY = "your_secret_key";
+
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
+
+  console.log(`\nAuthenticating token - ${token}\n`);
 
   if (!token) {
     return res.status(401).json({ message: "No token provided" });
   }
 
   try {
-    const decoded = jwt.verify(token, SECRET_KEY);
+    const decoded = jwt.verify(token, JWT_SECRET_KEY);
 
     req.body.user_id = decoded.userId; // Add User Id to req.body
     next();

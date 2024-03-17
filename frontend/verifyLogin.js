@@ -1,7 +1,6 @@
 // Function to check if the user is still logged in
 async function isLoggedIn() {
   const token = localStorage.getItem("token");
-  console.log("token:", token);
 
   if (!token) {
     return false;
@@ -35,7 +34,7 @@ async function verifyLoginStatus() {
   console.log("Verifying Login with token in front end.");
   const loggedIn = await isLoggedIn();
   if (!loggedIn) {
-    console.log("User is NOT logged in");
+    console.log("User is NOT logged in, redirecting");
     window.location.href = "/login";
   } else {
     console.log("User is logged in");

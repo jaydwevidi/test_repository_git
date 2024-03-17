@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const SECRET_KEY = "your_secret_key";
 
 exports.register = async (req, res) => {
+  console.log("Registering User - " + JSON.stringify(req.body));
   try {
     const { fname, lname, email, password, phone, gender, dob } = req.body;
 
@@ -29,6 +30,7 @@ exports.register = async (req, res) => {
     res
       .status(201)
       .json({ message: "User added successfully", userId: result.insertId });
+    console.log("User Registered Successfully");
   } catch (error) {
     res
       .status(500)
