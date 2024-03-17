@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    fetch("http://localhost:3000/userData/getSummary", {
+    fetch("/userData/getSummary", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -8,7 +8,7 @@ async function isLoggedIn() {
   }
 
   try {
-    const response = await fetch("http://localhost:3000/users/getUserDetails", {
+    const response = await fetch("/users/getUserDetails", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

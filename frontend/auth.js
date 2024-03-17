@@ -6,7 +6,7 @@ function handleLogin(event) {
   const password = document.getElementById("password").value;
   const errorMessage = document.getElementById("errorMessage");
 
-  fetch("http://localhost:3000/users/login", {
+  fetch("/users/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
