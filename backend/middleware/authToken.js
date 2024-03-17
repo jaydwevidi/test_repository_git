@@ -13,8 +13,7 @@ const authenticateToken = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
 
-    req.body.user_id = decoded.userId; // Override the user_id in the request object
-
+    req.body.user_id = decoded.userId; // Add User Id to req.body
     next();
   } catch (error) {
     res.status(403).json({ message: "Invalid token" });

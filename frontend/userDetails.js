@@ -6,7 +6,7 @@ function fetchUserDetails() {
     return;
   }
 
-  fetch("http://3.90.66.68:3000/users/getUserDetails", {
+  fetch("http://localhost:3000/users/getUserDetails", {
     method: "POST", // Ensure this method is correct; it might be GET
     headers: {
       Authorization: `Bearer ${token}`,
