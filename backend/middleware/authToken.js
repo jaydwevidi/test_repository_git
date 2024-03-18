@@ -6,10 +6,23 @@ const authenticateToken = async (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
-  console.log(`\nVerifying Authenticating token - ${token.slice(0, 15)}`);
+  const clientIp = req.ip; // Client IP address
+
+  console.log(
+    `\nVerifying Authenticating token - ${token.slice(
+      0,
+      15
+    )} ; client-ip - ${clientIp}`
+  );
 
   if (!token) {
     console.log(`Token not Provided.`);
+
+    await pool.query(
+      "INSERT INTO authVerificationLogs (token, login_time, status, user_id) VALUES (?, NOW(), ?, ?)",
+      [null, 0, null]
+    );
+
     return res.status(401).json({ message: "No token provided" });
   }
 
@@ -26,6 +39,11 @@ const authenticateToken = async (req, res, next) => {
 
     next();
   } catch (error) {
+    await pool.query(
+      "INSERT INTO authVerificationLogs (token, login_time, status, user_id) VALUES (?, NOW(), ?, ?)",
+      [token, 0, null]
+    );
+
     console.log(`Token is Invalid + ${error}`);
     res.status(403).json({ message: "Invalid token" });
   }
