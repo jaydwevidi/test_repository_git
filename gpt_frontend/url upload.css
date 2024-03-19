@@ -1,0 +1,168 @@
+
+
+/* Import Google Font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+.wrapper{
+  border: 10px;
+  border-color: #CD5C5C;
+    text-align: center;
+    position: relative;
+  max-width: 500px;
+  height: 450px;
+  background: #fff;
+  border-radius: 7px;
+  padding: 2px 10px 1px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+  top: 145px;
+  left: 900px;
+  
+}
+header h1{
+  border: 10px;
+  font-size: 20px;
+  font-weight: 400;
+}
+header p{
+  border: 10px;
+  margin-top: 5px;
+  font-size: 18px;
+  color: #474747;
+}
+form{
+  border: 10px;
+  margin: 20px 0 27px;
+}
+form input{
+  
+  width: 90%;
+  height: 40px;
+  outline: none;
+  padding: 0 17px;
+  font-size: 19px;
+  border-radius: 5px;
+  border: 1px solid #b3b2b2;
+  transition: 0.1s ease;
+}
+form input::placeholder{
+  color: #b3b2b2;
+}
+form input:focus{
+  box-shadow: 0 3px 6px rgba(0,0,0,0.13);
+}
+form button{
+    position: relative;
+    left: 34%;
+  width: 30%;
+  border:none;
+  
+  outline: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 17px;
+  margin-top: 20px;
+  padding: 15px 13px;
+  border-radius: 5px;
+  pointer-events: none;
+  background: #CD5C5C;
+
+ 
+}
+form input:valid ~ button{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+.wrapper {
+  border: 4px dotted rgb(195, 32, 32);
+  padding: 15px;
+  border-collapse: separate;
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+}
+
+#uploadButton1 {
+  position: relative;
+  text-align: center;
+  width: 155px;
+  height: 50px;
+  background-color: #CD5C5C;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#uploadButton1:hover {
+  background-color: #df808d;
+}
+
+#loading-spinner {
+  margin-left: 10px; /* Adjust margin as needed */
+  width: 50px; /* Adjust size as needed */
+  height: 50px; /* Adjust size as needed */
+}
+
+
+
+.wrapper1{
+    text-align: center;
+  position: relative;
+  max-width: 500px;
+  max-height: 255px;
+  background: #fff;
+  border-radius: 7px;
+  padding: 200px 10px 14px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+  top: -140px;
+  left: 330px;
+
+}
+header h1{
+  font-size: 20px;
+  font-weight: 400;
+}
+header p{
+  margin-top: 5px;
+  font-size: 18px;
+  color: #474747;
+}
+form{
+  margin: 20px 0 27px;
+}
+form input{
+  width: 90%;
+  height: 40px;
+  outline: none;
+  padding: 0 17px;
+  font-size: 19px;
+  border-radius: 5px;
+  border: 1px solid #b3b2b2;
+  transition: 0.1s ease;
+}
+form input::placeholder{
+  color: #b3b2b2;
+}
+form input:focus{
+  box-shadow: 0 3px 6px rgba(0,0,0,0.13);
+}
+
+ 
+
+form input:valid ~ button{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+
+
+
+
+
+

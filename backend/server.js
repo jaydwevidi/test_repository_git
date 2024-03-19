@@ -21,15 +21,19 @@ const internalRoutes = require("./routes/internalRoutes");
 const userActionsRoutes = require("./routes/userActionsRoutes");
 
 const uiRoutes = require("./routes/uiRoutes");
+const gptUiRoutes = require("./routes/gptUiRoutes");
 
 // Using routes
 app.use("/user/management", userManagementRoutes);
 app.use("/user/action", userActionsRoutes);
 app.use("/internal", internalRoutes);
 app.use("/", uiRoutes);
+app.use("/gpt", gptUiRoutes);
 
 // Serve static files from the frontend directory
 app.use(express.static(path.join(__dirname, "..", "frontend")));
+app.use(express.static(path.join(__dirname, "..", "gpt_frontend")));
+app.use(express.static(path.join(__dirname, "..", "gpt_frontend/login")));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

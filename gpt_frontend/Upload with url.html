@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="style.css" />
+		<link rel="stylesheet" href="url upload.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<title>Insight Hub</title>
+	</head>
+	<body>
+		<nav id="sidebar">
+			<div class="float-top">
+				<div class="sidebar-controls">
+					<button class="new-chat"><i class="fa fa-plus"></i> New chat</button>
+				</div>
+				<ul class="conversations">
+					<li class="active">
+						<div class="fade"></div>
+						<div class="edit-buttons">
+						</div>
+					</li>
+					<br><br>
+					<li class="grouping">Old Chat</li>
+					<li>
+						<button class="conversation-button"><i class="fa fa-message fa-regular"></i> This is a conversation title</button>
+						<div class="fade"></div>
+						<div class="edit-buttons">
+						</div>
+					</li>
+					<li>
+						<button class="conversation-button"><i class="fa fa-message fa-regular"></i> This is a very super long conversation title that doesn't fit</button>
+						<div class="fade"></div>
+						<div class="edit-buttons">
+						</div>
+					</li>
+					<li class="grouping"></li>
+					<li>
+						<button class="conversation-button"><i class="fa fa-message fa-regular"></i> This is a conversation title</button>
+						<div class="fade"></div>
+						<div class="edit-buttons">
+						</div>
+					</li>
+					<li>
+						<button class="conversation-button"><i class="fa fa-message fa-regular"></i> This is a conversation title</button>
+						<div class="fade"></div>
+						<div class="edit-buttons">
+						</div>
+					</li>
+					<li>
+						<button class="conversation-button"><i class="fa fa-message fa-regular"></i> This is a conversation title</button>
+						<div class="fade"></div>
+						<div class="edit-buttons">
+						</div>
+					</li>
+					<li>
+						<button class="conversation-button"><i class="fa fa-message fa-regular"></i> This is a conversation title</button>
+						<div class="fade"></div>
+						<div class="edit-buttons">
+						</div>
+					</li>
+					<li>
+						<button class="conversation-button"><i class="fa fa-message fa-regular"></i> This is a conversation title</button>
+						<div class="fade"></div>
+						<div class="edit-buttons">
+						</div>
+					</li>
+					<li>
+						<button class="conversation-button"><i class="fa fa-message fa-regular"></i> This is a conversation title</button>
+						<div class="fade"></div>
+						<div class="edit-buttons">
+						</div>
+					</li>
+					<li>
+						<button class="conversation-button"><i class="fa fa-message fa-regular"></i> This is a conversation title</button>
+						<div class="fade"></div>
+						<div class="edit-buttons">
+						</div>
+					</li>
+					<li>
+						<button class="conversation-button"><i class="fa fa-message fa-regular"></i> This is a conversation title</button>
+						<div class="fade"></div>
+						<div class="edit-buttons">
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="user-menu">
+				<button id="logoutButton"><i class="fa fa-sign-out"></i> Logout</button>
+			</div>
+		</nav>
+		<main>
+		</div>
+		<div class="logo3">
+			<br>
+			Insight Hub
+		</div>
+		</div>
+		</head>
+		<div class="wrapper">
+			<header>
+				<h1>Video URL</h1>
+			</header>
+			<form action="#">
+				<input type="url" id="videoUrlInput" placeholder="Paste Video URL" required>
+			</form>
+			<div class="button-container">
+				<button id="uploadButton1" type="button" onclick="redirectToAnotherPage()">Upload</button>
+				<img src="spinner.gif" alt="Loading Spinner" id="loading-spinner" style="display: none;">
+			</div>
+		</div>
+		
+  
+  
+  
+		<style>
+			.wrapper {
+			border: 4px dotted rgb(195, 32, 32); /* This adds a dotted border around the .wrapper */
+			padding: 15px; /* Optional: Add some padding inside the border */
+			border-collapse: separate;
+			}
+			#uploadButton1 {
+			text-align: center;
+			position: relative;
+      top: 20px;
+      left: 165px;
+			width: 155px;
+			height: 50px;
+			background-color: #CD5C5C;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			font-size: 16px;
+			}
+			#uploadButton1:hover {
+			background-color: #df808d;
+			}    
+      #loading-spinner {
+  margin-left: 10px; /* Adjust margin as needed */
+  width: 50px; /* Adjust size as needed */
+  height: 50px; /* Adjust size as needed */
+}  
+		</style>
+		<!-- upload -->
+		<div class="wrapper1" id="fileDropArea" ondragover="handleDragOver(event);" ondragleave="handleDragLeave(event);" ondrop="handleDrop(event);">
+			<header>
+				<h1>File Uploader</h1>
+				<p id="fileInstructions">Drag & drop any file here<br>or click here to browse files from your device</p>
+				<i class="fa fa-upload" style="font-size:50px"></i>
+				<form action="#">
+					<br>
+				</form>
+				<input type="file" id="fileInput" style="display: none;">
+			</header>
+      <button id="uploadButton2" onclick="redirectToAnotherPage()">Upload</button>
+		<style>
+
+			#uploadButton2 {
+			text-align: center;
+			position: relative;
+            top: -42px;
+            left: 165px;
+			width: 155px;
+			height: 50px;
+			background-color: #CD5C5C;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			font-size: 16px;
+			}
+			#uploadButton2:hover {
+			background-color: #df808d;
+			}
+		</style>
+		</div>
+		<style>
+			.wrapper1 {
+			border: 4px dotted rgb(195, 32, 32); /* This adds a dotted border around the .wrapper */
+			padding: 13px; /* Optional: Add some padding inside the border */
+			border-collapse: separate;
+			}
+		</style>
+
+		<style>
+			#uploadButton {
+			text-align: center;
+			position: relative;
+      top: auto;
+      left: auto;
+			width: 155px;
+			height: 50px;
+			background-color: #CD5C5C;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			font-size: 16px;
+			}
+			#uploadButton:hover {
+			background-color: #df808d;;
+			}
+		</style>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
