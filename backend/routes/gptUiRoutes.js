@@ -12,16 +12,10 @@ router.get("/login", (req, res) => {
 });
 
 // Serve the userDetails page
-router.get("/Upload_with_url", (req, res) => {
-  res.sendFile(path.join(__dirname, "../../gpt_frontend/Upload with url.html"));
-});
-
-router.get("/summarize", (req, res) => {
-  res.sendFile(path.join(__dirname, "../../frontend/generateQuestions.html"));
-});
-
-router.get("/generate-question", (req, res) => {
-  res.sendFile(path.join(__dirname, "../../frontend/generateQuestions.html"));
+router.get("/upload_with_url", (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "../../gpt_frontend/summary/upload_with_url.html")
+  );
 });
 
 module.exports = router;

@@ -173,7 +173,7 @@ function handleSignin(event) {
   });
 
   // Make a POST request to the login endpoint
-  fetch("http://3.90.66.68:3000/user/management/login", {
+  fetch("/user/management/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -190,7 +190,7 @@ function handleSignin(event) {
         // Save the token for future use (e.g., in local storage or a cookie)
         localStorage.setItem("token", data.token);
         // Redirect to another page or perform further actions
-        window.location.href = "Upload with url.html";
+        window.location.href = "/summary/upload_with_url.html";
       } else {
         // Display error message in a pop-up
         displayPopup(

@@ -66,17 +66,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const transcriptDiv = document.getElementById("transcript");
     const summaryDiv = document.getElementById("summary");
     const nextButton = document.getElementById("nextScreen");
+    const mcqDiv = document.getElementById("mcq");
 
     transcriptDiv.style.display = "block";
     summaryDiv.style.display = "block";
     nextButton.style.display = "block";
+    mcqDiv.style.display = "block";
 
     transcriptDiv.textContent = `Transcript: ${data.transcript}`;
     summaryDiv.textContent = `Summary: ${data.summary}`;
+    mcqDiv.textContent = `mcq : ${JSON.stringify(data.mcq)}`;
 
     nextButton.addEventListener("click", () => {
       // Logic to go to the next screen for MCQs will be implemented here
       window.location.href = `mcq_screen.html?mcqId=your_mcq_id`;
     });
   }
+  w;
 });
