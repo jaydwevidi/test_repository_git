@@ -20,8 +20,8 @@ router.get("/summarize", (req, res) => {
   res.sendFile(path.join(__dirname, "../../frontend/generateQuestions.html"));
 });
 
-router.get("/generate-question", (req, res) => {
-  res.sendFile(path.join(__dirname, "../../frontend/generateQuestions.html"));
+router.get("/edit_profile", (req, res) => {
+  res.sendFile(path.join(__dirname, "../../frontend/edit_user/edit_user.html"));
 });
 
 module.exports = router;
