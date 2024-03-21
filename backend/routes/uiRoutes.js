@@ -24,4 +24,10 @@ router.get("/edit_profile", (req, res) => {
   res.sendFile(path.join(__dirname, "../../frontend/edit_user/edit_user.html"));
 });
 
+router.get("/mcq_screen", (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "../../frontend/edit_wuser/edit_user.html")
+  );
+});
+
 module.exports = router;
